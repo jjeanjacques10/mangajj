@@ -35,6 +35,8 @@ public class ExtractMangasJob {
     private void insertMangaDatabase(MyMangaListDataContract myManga) {
         System.out.println("Creating in Database manga - " + myManga.getTitle());
         MangaDataContract manga = MangaDataContract.builder()
+                .id(myManga.getId())
+                .status(myManga.getStatus())
                 .title(myManga.getTitle())
                 .synopsis(myManga.getSynopsis())
                 .build();

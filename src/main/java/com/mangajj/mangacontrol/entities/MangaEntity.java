@@ -18,6 +18,7 @@ public class MangaEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String title;
+    private String status;
 
     @Column(columnDefinition = "LONGTEXT")
     private String synopsis;

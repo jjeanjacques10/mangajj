@@ -36,7 +36,9 @@ public class MangaServiceImpl implements MangaService {
     @Override
     public void createManga(MangaDataContract manga) {
         var mangaEntity = MangaEntity.builder()
+                .id(manga.getId())
                 .title(manga.getTitle())
+                .status(manga.getStatus())
                 .synopsis(manga.getSynopsis())
                 .build();
         repository.save(mangaEntity);

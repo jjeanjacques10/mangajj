@@ -9,6 +9,7 @@ public class MangaDataContract {
 
     private Long id;
     private String title;
+    private String status;
     private String synopsis;
 
 }
