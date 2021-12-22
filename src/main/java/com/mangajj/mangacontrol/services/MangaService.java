@@ -14,4 +14,6 @@ public interface MangaService {
     void createBatch(List<MangaDataContract> mangas);
 
     MangaEntity getById(Long id);
+
+    MangaEntity getByTitle(String title);
 }

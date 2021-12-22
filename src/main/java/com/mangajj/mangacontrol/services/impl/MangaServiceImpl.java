@@ -29,6 +29,11 @@ public class MangaServiceImpl implements MangaService {
     }
 
     @Override
+    public MangaEntity getByTitle(String title) {
+        return repository.findByTitle(title);
+    }
+
+    @Override
     public void createManga(MangaDataContract manga) {
         var mangaEntity = MangaEntity.builder()
                 .title(manga.getTitle())

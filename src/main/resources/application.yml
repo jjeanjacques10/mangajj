@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: jjuser
+    password: manga-jj-password
+    url: 'jdbc:mysql://localhost:3306/mangadb?createDatabaseIfNotExist=true'
+  jpa:
+    defer-datasource-initialization: true
+    properties.hibernate.format_sql: true
+    generate-ddl: true
+    hibernate.ddl.auto: update
+
+api:
+  source:
+    mymangalist:
+      url: 'https://api.jikan.moe/v3'
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 6000

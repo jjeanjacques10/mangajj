@@ -17,7 +17,7 @@ Project created to control my magazines collection.
 - [Docker](https://www.docker.com/)
 
 ### Config Database
-Access the file **[application.properties](./src/main/resources/application.properties)**
+Access the file **[application.properties](src/main/resources/application.yml)**
 
 ```
 spring.datasource.username={username}
