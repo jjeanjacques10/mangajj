@@ -1,7 +1,7 @@
-package com.mangajj.mangacontrol.gateway.rest;
+package com.mangajj.mangacontrol.gateway.controller;
 
-import com.mangajj.mangacontrol.entities.MangaEntity;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.MangaDataContract;
+import com.mangajj.mangacontrol.entity.MangaEntity;
+import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
 import com.mangajj.mangacontrol.services.MangaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +30,15 @@ public class MangaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> createManga(@RequestBody MangaDataContract manga) {
+    public ResponseEntity<String> createManga(@RequestBody MangaDTO manga) {
         service.createManga(manga);
         return ResponseEntity.ok().body("created manga: " + manga.getTitle());
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<String>> createBatchManga(@RequestBody List<MangaDataContract> mangas) {
+    public ResponseEntity<List<String>> createBatchManga(@RequestBody List<MangaDTO> mangas) {
         service.createBatch(mangas);
-        var titlesCreated = mangas.stream().map(MangaDataContract::getTitle).collect(Collectors.toList());
+        var titlesCreated = mangas.stream().map(MangaDTO::getTitle).collect(Collectors.toList());
         return ResponseEntity.ok().body(titlesCreated);
     }
 

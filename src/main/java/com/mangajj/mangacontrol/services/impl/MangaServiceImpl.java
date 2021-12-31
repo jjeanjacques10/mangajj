@@ -1,40 +1,45 @@
 package com.mangajj.mangacontrol.services.impl;
 
-import com.mangajj.mangacontrol.entities.MangaEntity;
+import com.mangajj.mangacontrol.entity.MangaEntity;
+import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.MangaDataContract;
 import com.mangajj.mangacontrol.services.MangaService;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Log4j2
 @Service
 @AllArgsConstructor
 public class MangaServiceImpl implements MangaService {
 
     @Autowired
-    private MangaRepository repository;
+    private final MangaRepository repository;
 
     @Override
     public List<MangaEntity> getAllMangas() {
+        log.info("Getting all mangas");
         return repository.findAll();
     }
 
     @Override
     public MangaEntity getById(Long id) {
-        var mangaFounded = repository.findById(id);
-        return mangaFounded.orElseThrow();
+        log.info("Get by Id [{}]", id);
+        var mangaFounded = repository.findById(id).orElseThrow();
+        return mangaFounded;
     }
 
     @Override
     public MangaEntity getByTitle(String title) {
+        log.info("Get by Title [{}]", title);
         return repository.findByTitle(title);
     }
 
     @Override
-    public void createManga(MangaDataContract manga) {
+    public void createManga(MangaDTO manga) {
         var mangaEntity = MangaEntity.builder()
                 .id(manga.getId())
                 .title(manga.getTitle())
@@ -45,7 +50,7 @@ public class MangaServiceImpl implements MangaService {
     }
 
     @Override
-    public void createBatch(List<MangaDataContract> mangas) {
+    public void createBatch(List<MangaDTO> mangas) {
         mangas.forEach(this::createManga);
     }
 

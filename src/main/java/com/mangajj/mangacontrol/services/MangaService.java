@@ -1,7 +1,7 @@
 package com.mangajj.mangacontrol.services;
 
-import com.mangajj.mangacontrol.entities.MangaEntity;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.MangaDataContract;
+import com.mangajj.mangacontrol.entity.MangaEntity;
+import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ public interface MangaService {
 
     List<MangaEntity> getAllMangas();
 
-    void createManga(MangaDataContract manga);
+    void createManga(MangaDTO manga);
 
-    void createBatch(List<MangaDataContract> mangas);
+    void createBatch(List<MangaDTO> mangas);
 
     MangaEntity getById(Long id);
 

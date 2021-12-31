@@ -1,6 +1,6 @@
 package com.mangajj.mangacontrol.gateway.repositories;
 
-import com.mangajj.mangacontrol.entities.MangaEntity;
+import com.mangajj.mangacontrol.entity.MangaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
