@@ -4,7 +4,8 @@ Project created to control my magazines collection.
 
 ## Steps
 
-- [ ] Integrate with some API
+- [x] Integrate with some API
+  - Lazy load process
 - [ ] Create a job to update my database
 - [ ] Add authentication
 - [ ] Deploy
@@ -24,7 +25,7 @@ spring.datasource.username={username}
 spring.datasource.password={password}
 ```
 
-Using external API to populate the database: https://github.com/jikan-me/jikan
+Using external API to populate database: https://github.com/jikan-me/jikan
 
 ---
 Developed by [Jean Jacques Barros](https://github.com/jjeanjacques10)
