@@ -11,6 +11,8 @@ public class MyMangaListDataContract {
     private String url;
     private String title;
     private String status;
+    private int volumes;
+    private int chapters;
     private String synopsis;
     private String background;
 

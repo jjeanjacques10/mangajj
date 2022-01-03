@@ -23,11 +23,13 @@ public class MangaEntity implements Serializable {
     private Long id;
     private String title;
     private String status;
+    private int volumes;
+    private int chapters;
 
     @Column(columnDefinition = "LONGTEXT")
     private String synopsis;
 
-    @ManyToMany(mappedBy = "mangas", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "mangas", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<CollectionEntity> collection;
 }

@@ -24,5 +24,7 @@ spring.datasource.username={username}
 spring.datasource.password={password}
 ```
 
+Using external API to populate the database: https://github.com/jikan-me/jikan
+
 ---
 Developed by [Jean Jacques Barros](https://github.com/jjeanjacques10)

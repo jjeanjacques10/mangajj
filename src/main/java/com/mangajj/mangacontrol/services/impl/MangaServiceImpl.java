@@ -4,9 +4,9 @@ import com.mangajj.mangacontrol.entity.MangaEntity;
 import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
 import com.mangajj.mangacontrol.services.MangaService;
+import com.mangajj.mangacontrol.services.MyMangaListService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class MangaServiceImpl implements MangaService {
 
-    @Autowired
     private final MangaRepository repository;
+    private final MyMangaListService myMangaListService;
 
     @Override
     public List<MangaEntity> getAllMangas() {
@@ -33,9 +33,24 @@ public class MangaServiceImpl implements MangaService {
     }
 
     @Override
+    public void updateLazyLoad(MangaEntity mangaEntity) {
+        var idLocal = mangaEntity.getId();
+        mangaEntity = myMangaListService.getByTitle(mangaEntity.getTitle());
+        mangaEntity.setId(idLocal);
+        repository.save(mangaEntity);
+    }
+
+    @Override
     public MangaEntity getByTitle(String title) {
         log.info("Get by Title [{}]", title);
-        return repository.findByTitle(title);
+        var mangaEntity = repository.findByTitle(title);
+
+        if (mangaEntity == null) {
+            mangaEntity = myMangaListService.getByTitle(title);
+            repository.save(mangaEntity);
+        }
+
+        return mangaEntity;
     }
 
     @Override

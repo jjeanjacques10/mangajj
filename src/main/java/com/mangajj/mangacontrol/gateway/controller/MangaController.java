@@ -23,9 +23,18 @@ public class MangaController {
         return ResponseEntity.ok().body(mangaList);
     }
 
+    @GetMapping
+    public ResponseEntity<MangaEntity> getMangaByTitle(@RequestParam String title) {
+        var mangaList = service.getByTitle(title);
+        return ResponseEntity.ok().body(mangaList);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<MangaEntity> getMangaById(@PathVariable Long id) {
+    public ResponseEntity<MangaEntity> getMangaById(@PathVariable Long id, @RequestHeader(defaultValue = "false") boolean cache) {
         var manga = service.getById(id);
+        if (cache) {
+            service.updateLazyLoad(manga);
+        }
         return ResponseEntity.ok(manga);
     }
 
