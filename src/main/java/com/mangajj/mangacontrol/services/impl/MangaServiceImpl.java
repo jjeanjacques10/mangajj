@@ -34,9 +34,7 @@ public class MangaServiceImpl implements MangaService {
 
     @Override
     public void updateLazyLoad(MangaEntity mangaEntity) {
-        var idLocal = mangaEntity.getId();
         mangaEntity = myMangaListService.getByTitle(mangaEntity.getTitle());
-        mangaEntity.setId(idLocal);
         repository.save(mangaEntity);
     }
 

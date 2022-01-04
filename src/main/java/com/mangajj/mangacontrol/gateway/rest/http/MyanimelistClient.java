@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface MyanimelistClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/manga/{id}")
-    MyMangaListDataContract getMangasMyList(@PathVariable int id);
+    MyMangaListDataContract getMangasMyList(@PathVariable Long id);
 
     @RequestMapping(method = RequestMethod.GET, value = "/search/manga")
     MyMangaListDataParentContract getMangasByTitle(@RequestParam(value = "q") String title,

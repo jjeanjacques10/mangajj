@@ -21,7 +21,7 @@ public class ExtractMangasJob {
     public void getMangas() {
         for (int i = 1; i <= 4500; i++) {
             try {
-                var responseMyManga = client.getMangasMyList(i);
+                var responseMyManga = client.getMangasMyList((long) i);
 
                 var mangaEntity = service.getByTitle(responseMyManga.getTitle());
                 if (mangaEntity == null) insertMangaDatabase(responseMyManga);

@@ -32,6 +32,8 @@ public class MyMangaListServiceImpl implements MyMangaListService {
                 .findFirst()
                 .orElseThrow(() -> new NoMangaFound("No results for " + title));
 
+        myManga = myanimelistClient.getMangasMyList(myManga.getId());
+
         return buildMangaEntity(myManga);
     }
 
@@ -39,6 +41,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
         return MangaEntity.builder()
                 .id(myManga.getId())
                 .status(myManga.getStatus())
+                .synopsis(myManga.getSynopsis())
                 .title(myManga.getTitle())
                 .volumes(myManga.getVolumes())
                 .chapters(myManga.getChapters())
