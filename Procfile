@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.mangajj.MangaControlApplication
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.mangajj.MangaControlApplication -Dserver.port=$PORT
