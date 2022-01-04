@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.mangajj.MangaControlApplication -Dserver.port=$PORT -jar target/manga-control-0.0.1-SNAPSHOT.jar
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* -Dserver.port=$PORT -jar target/manga-control-0.0.1-SNAPSHOT.jar
