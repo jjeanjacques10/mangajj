@@ -30,11 +30,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
         var myManga = mylistResults.getResults().stream()
                 .filter(manga -> manga.getTitle().contains(title))
                 .findFirst()
-                .orElse(null);
-
-        if (myManga == null) {
-            throw new NoMangaFound("No results for " + title);
-        }
+                .orElseThrow(() -> new NoMangaFound("No results for " + title));
 
         return buildMangaEntity(myManga);
     }
@@ -44,10 +40,8 @@ public class MyMangaListServiceImpl implements MyMangaListService {
                 .id(myManga.getId())
                 .status(myManga.getStatus())
                 .title(myManga.getTitle())
-                .status(myManga.getStatus())
                 .volumes(myManga.getVolumes())
                 .chapters(myManga.getChapters())
-                .synopsis(myManga.getSynopsis())
                 .build();
     }
 }

@@ -27,5 +27,11 @@ spring.datasource.password={password}
 
 Using external API to populate database: https://github.com/jikan-me/jikan
 
+### Config Local
+
+```
+-Dspring.profiles.active=local
+```
+
 ---
 Developed by [Jean Jacques Barros](https://github.com/jjeanjacques10)
