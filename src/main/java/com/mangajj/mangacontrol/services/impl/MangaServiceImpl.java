@@ -45,16 +45,17 @@ public class MangaServiceImpl implements MangaService {
     }
 
     @Override
-    public MangaEntity getByTitle(String title) {
+    public List<MangaEntity> getByTitle(String title) {
         log.info("Get by Title [{}]", title);
-        var mangaEntity = repository.findByTitle(title);
+        var mangaEntities = repository.findByTitleIgnoreCaseContaining(title);
 
-        if (mangaEntity == null) {
-            mangaEntity = myMangaListService.getByTitle(title);
+        if (mangaEntities.isEmpty()) {
+            var mangaEntity = myMangaListService.getByTitle(title);
+            mangaEntities.add(mangaEntity);
             repository.save(mangaEntity);
         }
 
-        return mangaEntity;
+        return mangaEntities;
     }
 
     @Override

@@ -24,9 +24,13 @@ public class MangaController {
     }
 
     @GetMapping
-    public ResponseEntity<MangaEntity> getMangaByTitle(@RequestParam String title) {
-        var mangaList = service.getByTitle(title);
-        return ResponseEntity.ok().body(mangaList);
+    public ResponseEntity getMangaByTitle(@RequestParam String title) {
+        try {
+            var mangaList = service.getByTitle(title);
+            return ResponseEntity.ok().body(mangaList);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
@@ -38,7 +42,7 @@ public class MangaController {
             }
             return ResponseEntity.ok(manga);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 

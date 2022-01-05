@@ -9,6 +9,6 @@ public interface MangaRepository extends JpaRepository<MangaEntity, Long> {
 
     List<MangaEntity> findAll();
 
-    MangaEntity findByTitle(String title);
+    List<MangaEntity> findByTitleIgnoreCaseContaining(String title);
 
 }

@@ -17,5 +17,5 @@ public interface MangaService {
 
     MangaEntity getById(Long id);
 
-    MangaEntity getByTitle(String title);
+    List<MangaEntity> getByTitle(String title);
 }
