@@ -28,7 +28,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
     public MangaEntity getByTitle(String title) {
         var mylistResults = myanimelistClient.getMangasByTitle(title, 1);
         var myManga = mylistResults.getResults().stream()
-                .filter(manga -> manga.getTitle().contains(title))
+                .filter(manga -> manga.getTitle().toUpperCase().contains(title.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() -> new NoMangaFound("No results for " + title));
 

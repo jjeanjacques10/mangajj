@@ -30,12 +30,16 @@ public class MangaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MangaEntity> getMangaById(@PathVariable Long id, @RequestHeader(defaultValue = "false") boolean cache) {
-        var manga = service.getById(id);
-        if (cache) {
-            service.updateLazyLoad(manga);
+    public ResponseEntity getMangaById(@PathVariable Long id, @RequestHeader(defaultValue = "false") boolean cache) {
+        try {
+            var manga = service.getById(id);
+            if (cache) {
+                service.updateLazyLoad(manga);
+            }
+            return ResponseEntity.ok(manga);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(manga);
     }
 
     @PostMapping("/")
