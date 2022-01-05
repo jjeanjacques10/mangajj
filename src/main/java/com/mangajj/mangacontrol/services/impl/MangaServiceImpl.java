@@ -29,6 +29,12 @@ public class MangaServiceImpl implements MangaService {
     public MangaEntity getById(Long id) {
         log.info("Get by Id [{}]", id);
         var mangaFounded = repository.findById(id).orElseThrow();
+
+        if (mangaFounded == null) {
+            mangaFounded = myMangaListService.getById(id);
+            repository.save(mangaFounded);
+        }
+
         return mangaFounded;
     }
 

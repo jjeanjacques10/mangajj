@@ -21,14 +21,14 @@ public class MyMangaListServiceImpl implements MyMangaListService {
 
     @Override
     public MangaEntity getById(Long id) {
-        return null;
+        var myManga = myanimelistClient.getMangasMyList(id);
+        return buildMangaEntity(myManga);
     }
 
     @Override
     public MangaEntity getByTitle(String title) {
         var mylistResults = myanimelistClient.getMangasByTitle(title, 1);
         var myManga = mylistResults.getResults().stream()
-                .filter(manga -> manga.getTitle().toUpperCase().contains(title.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() -> new NoMangaFound("No results for " + title));
 
