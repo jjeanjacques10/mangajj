@@ -59,4 +59,10 @@ public class MangaController {
         return ResponseEntity.ok().body(titlesCreated);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteManga(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

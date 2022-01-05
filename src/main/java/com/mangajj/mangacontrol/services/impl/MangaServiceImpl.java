@@ -59,6 +59,11 @@ public class MangaServiceImpl implements MangaService {
     }
 
     @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
     public void createManga(MangaDTO manga) {
         var mangaEntity = MangaEntity.builder()
                 .id(manga.getId())

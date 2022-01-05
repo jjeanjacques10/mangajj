@@ -18,4 +18,6 @@ public interface MangaService {
     MangaEntity getById(Long id);
 
     List<MangaEntity> getByTitle(String title);
+
+    void deleteById(Long id);
 }
