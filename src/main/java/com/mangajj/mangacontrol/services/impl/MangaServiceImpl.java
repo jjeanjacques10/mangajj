@@ -31,17 +31,10 @@ public class MangaServiceImpl implements MangaService {
         var mangaFounded = repository.findById(id).orElseThrow();
 
         if (mangaFounded == null) {
-            mangaFounded = myMangaListService.getById(id);
-            repository.save(mangaFounded);
+            mangaFounded = myMangaListService.getFromSourceById(id);
         }
 
         return mangaFounded;
-    }
-
-    @Override
-    public void updateLazyLoad(MangaEntity mangaEntity) {
-        mangaEntity = myMangaListService.getByTitle(mangaEntity.getTitle());
-        repository.save(mangaEntity);
     }
 
     @Override
@@ -50,9 +43,7 @@ public class MangaServiceImpl implements MangaService {
         var mangaEntities = repository.findByTitleIgnoreCaseContaining(title);
 
         if (mangaEntities.isEmpty()) {
-            var mangaEntity = myMangaListService.getByTitle(title);
-            mangaEntities.add(mangaEntity);
-            repository.save(mangaEntity);
+            mangaEntities = myMangaListService.getFromSourceByTitle(title);
         }
 
         return mangaEntities;

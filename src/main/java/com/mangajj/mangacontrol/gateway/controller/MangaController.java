@@ -37,9 +37,6 @@ public class MangaController {
     public ResponseEntity getMangaById(@PathVariable Long id, @RequestHeader(defaultValue = "false") boolean cache) {
         try {
             var manga = service.getById(id);
-            if (cache) {
-                service.updateLazyLoad(manga);
-            }
             return ResponseEntity.ok(manga);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());

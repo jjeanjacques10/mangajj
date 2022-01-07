@@ -2,10 +2,12 @@ package com.mangajj.mangacontrol.services;
 
 import com.mangajj.mangacontrol.entity.MangaEntity;
 
+import java.util.List;
+
 public interface MyMangaListService {
 
-    MangaEntity getById(Long id);
+    MangaEntity getFromSourceById(Long id);
 
-    MangaEntity getByTitle(String title);
+    List<MangaEntity> getFromSourceByTitle(String title);
 
 }

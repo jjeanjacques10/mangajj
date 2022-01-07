@@ -16,6 +16,7 @@ public interface MyanimelistClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/search/manga")
     MyMangaListDataParentContract getMangasByTitle(@RequestParam(value = "q") String title,
-                                                   @RequestParam(value = "page", defaultValue = "1") int page);
+                                                   @RequestParam(value = "page", defaultValue = "1") int page,
+                                                   @RequestParam(value = "limit", defaultValue = "5") int limit);
 
 }

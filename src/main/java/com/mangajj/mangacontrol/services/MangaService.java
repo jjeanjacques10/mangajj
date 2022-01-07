@@ -13,8 +13,6 @@ public interface MangaService {
 
     void createBatch(List<MangaDTO> mangas);
 
-    void updateLazyLoad(MangaEntity mangaDTO);
-
     MangaEntity getById(Long id);
 
     List<MangaEntity> getByTitle(String title);
