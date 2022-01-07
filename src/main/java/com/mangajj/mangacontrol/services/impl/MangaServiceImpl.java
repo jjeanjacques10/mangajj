@@ -28,9 +28,10 @@ public class MangaServiceImpl implements MangaService {
     @Override
     public MangaEntity getById(Long id) {
         log.info("Get by Id [{}]", id);
-        var mangaFounded = repository.findById(id).orElseThrow();
+        var mangaFounded = repository.findById(id).orElse(null);
 
         if (mangaFounded == null) {
+            log.info("search in lazy load process to id [{}]", id);
             mangaFounded = myMangaListService.getFromSourceById(id);
         }
 
@@ -43,6 +44,7 @@ public class MangaServiceImpl implements MangaService {
         var mangaEntities = repository.findByTitleIgnoreCaseContaining(title);
 
         if (mangaEntities.isEmpty()) {
+            log.info("search in lazy load process to title [{}]", title);
             mangaEntities = myMangaListService.getFromSourceByTitle(title);
         }
 

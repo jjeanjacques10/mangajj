@@ -1,15 +1,13 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: jjuser
-    password: manga-jj-password
-    url: 'jdbc:mysql://localhost:3306/mangadb?createDatabaseIfNotExist=true'
   jpa:
     defer-datasource-initialization: true
     properties.hibernate.format_sql: true
     generate-ddl: true
     hibernate.ddl.auto: update
 
-logging:
-  level:
-    root: ${LOGGING_LEVEL_ROOT:info}
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 4000

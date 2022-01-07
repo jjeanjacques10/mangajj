@@ -2,7 +2,7 @@ package com.mangajj.mangacontrol.gateway.job;
 
 import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.MyMangaListDataContract;
-import com.mangajj.mangacontrol.gateway.rest.http.MyanimelistClient;
+import com.mangajj.mangacontrol.gateway.rest.MyanimelistClient;
 import com.mangajj.mangacontrol.services.MangaService;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;

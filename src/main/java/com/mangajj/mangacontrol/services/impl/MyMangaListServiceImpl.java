@@ -1,10 +1,10 @@
 package com.mangajj.mangacontrol.services.impl;
 
 import com.mangajj.mangacontrol.entity.MangaEntity;
-import com.mangajj.mangacontrol.exception.NoMangaFound;
+import com.mangajj.mangacontrol.exception.NotFoundManga;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.MyMangaListDataContract;
-import com.mangajj.mangacontrol.gateway.rest.http.MyanimelistClient;
+import com.mangajj.mangacontrol.gateway.rest.MyanimelistClient;
 import com.mangajj.mangacontrol.services.MyMangaListService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,11 +38,12 @@ public class MyMangaListServiceImpl implements MyMangaListService {
         var mylistResults = myanimelistClient.getMangasByTitle(title, 1, 3);
 
         if (mylistResults.getResults().isEmpty()) {
-            new NoMangaFound("No results for " + title);
+            new NotFoundManga("No results for " + title);
         }
 
         var mangasEntities = mylistResults.getResults()
-                .stream().map(mangaCompleted -> saveToDatabase(mangaCompleted))
+                .stream().map(manga -> saveToDatabase(manga))
+                .filter(mangaEntity -> mangaEntity != null)
                 .collect(Collectors.toList());
 
         return mangasEntities;

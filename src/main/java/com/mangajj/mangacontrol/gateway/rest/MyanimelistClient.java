@@ -1,4 +1,4 @@
-package com.mangajj.mangacontrol.gateway.rest.http;
+package com.mangajj.mangacontrol.gateway.rest;
 
 import com.mangajj.mangacontrol.gateway.rest.datacontract.MyMangaListDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.MyMangaListDataParentContract;
