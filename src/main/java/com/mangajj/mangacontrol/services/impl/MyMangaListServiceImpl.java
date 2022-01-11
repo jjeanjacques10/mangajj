@@ -52,6 +52,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
     private MangaEntity saveToDatabase(MyMangaListDataContract myManga) {
         MangaEntity mangaEntity = null;
         try {
+            Thread.sleep(2000);
             myManga = myanimelistClient.getMangasMyList(myManga.getId());
             mangaEntity = buildMangaEntity(myManga);
             repository.save(mangaEntity);
