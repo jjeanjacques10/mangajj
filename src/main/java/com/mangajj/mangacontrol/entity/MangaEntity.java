@@ -25,7 +25,7 @@ public class MangaEntity implements Serializable {
     private int volumes;
     private int chapters;
 
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     private String synopsis;
 
     @ManyToMany(mappedBy = "mangas", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
