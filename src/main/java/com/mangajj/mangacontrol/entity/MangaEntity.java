@@ -1,6 +1,7 @@
 package com.mangajj.mangacontrol.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,10 @@ public class MangaEntity implements Serializable {
     private String status;
     private int volumes;
     private int chapters;
+
+    @JsonProperty("image_url")
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(columnDefinition = "TEXT")
     private String synopsis;

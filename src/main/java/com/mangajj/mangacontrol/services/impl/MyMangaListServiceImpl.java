@@ -71,6 +71,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
                 .title(myManga.getTitle())
                 .volumes(myManga.getVolumes())
                 .chapters(myManga.getChapters())
+                .imageUrl(myManga.getImageUrl())
                 .build();
     }
 }

@@ -15,5 +15,7 @@ public class MyMangaListDataContract {
     private int chapters;
     private String synopsis;
     private String background;
+    @JsonProperty("image_url")
+    private String imageUrl;
 
 }
