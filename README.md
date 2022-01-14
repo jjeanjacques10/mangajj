@@ -8,14 +8,17 @@ Project created to control my magazines collection.
     - Lazy load process
 - [ ] Create a job to update my database
 - [ ] Add authentication
-- [ ] Deploy
+- [x] Deploy
+  - Heroku
 
 ## Technology
 
 - [Java Spring Boot](https://spring.io/projects/spring-boot)
 - [Hibernate](https://hibernate.org/)
 - [MySQL](https://www.mysql.com/)
+- [H2 Database](https://www.h2database.com/html/main.html)
 - [Docker](https://www.docker.com/)
+- [JUnit](https://junit.org/junit5/)
 
 ### Config Database
 
