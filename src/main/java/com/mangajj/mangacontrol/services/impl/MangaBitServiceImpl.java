@@ -2,6 +2,7 @@ package com.mangajj.mangacontrol.services.impl;
 
 import com.mangajj.mangacontrol.gateway.rest.MangaBitClient;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterMangaBit;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterRequestDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.PageMangaBit;
 import com.mangajj.mangacontrol.services.MangaBitService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class MangaBitServiceImpl implements MangaBitService {
     private MangaBitClient mangaBitClient;
 
     @Override
-    public List<ChapterMangaBit> getChapters(Long mangaId) {
+    public List<ChapterMangaBit> getChapters(Long mangaId, String title) {
         log.info("Get Chapters by Id {}", mangaId);
         int totalPages = 1;
         int page = 1;
@@ -33,11 +34,21 @@ public class MangaBitServiceImpl implements MangaBitService {
                 page++;
             } catch (Exception e) {
                 log.error("Erro to get chapter by Id {} - ", mangaId, e);
+                this.requestChapters(mangaId, title);
                 break;
             }
         } while (page != totalPages);
 
         return chapterList;
+    }
+
+    private void requestChapters(Long mangaId, String title) {
+        try {
+            var chapterRequested = ChapterRequestDataContract.builder().mangaId(mangaId).title(title).build();
+            mangaBitClient.requestNewChapters(chapterRequested);
+        } catch (Exception e) {
+            log.error("Erro to request chapters - {}", e);
+        }
     }
 
     @Override

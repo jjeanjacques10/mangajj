@@ -11,7 +11,7 @@ public interface MangaBitClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/manga/{mangaId}/chapters")
     ChapterMangaBitDataContract getChapter(@PathVariable Long mangaId,
-                                           @RequestParam(value = "0") int page);
+                                           @RequestParam(defaultValue = "0") int page);
 
     @RequestMapping(method = RequestMethod.GET, value = "/manga/{mangaId}/chapters/{chapterId}/pages")
     ChapterPagesMangaBitDataContract getChapterPages(@PathVariable Long mangaId,

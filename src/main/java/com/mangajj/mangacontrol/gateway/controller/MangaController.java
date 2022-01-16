@@ -48,7 +48,7 @@ public class MangaController {
             var manga = service.getById(id);
 
             if (expanded_content) {
-                chapters = mangaBitService.getChapters(id);
+                chapters = mangaBitService.getChapters(id, manga.getTitle());
             }
 
             var mangaDTO = MangaDTO.builder()

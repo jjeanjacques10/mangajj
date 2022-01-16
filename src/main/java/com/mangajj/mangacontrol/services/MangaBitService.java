@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MangaBitService {
 
-    List<ChapterMangaBit> getChapters(Long mangaId);
+    List<ChapterMangaBit> getChapters(Long mangaId, String title);
 
     List<PageMangaBit> getPages(Long mangaId, String chapterId);
 
