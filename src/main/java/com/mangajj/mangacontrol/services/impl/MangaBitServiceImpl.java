@@ -42,21 +42,14 @@ public class MangaBitServiceImpl implements MangaBitService {
 
     @Override
     public List<PageMangaBit> getPages(Long mangaId, String chapterId) {
-        int totalPages = 1;
-        int page = 1;
         List<PageMangaBit> pageList = new ArrayList<>();
 
-        do {
-            try {
-                var chapters = mangaBitClient.getChapterPages(mangaId, chapterId);
-                pageList.addAll(chapters.getData());
-                totalPages = chapters.getTotalPages();
-                page++;
-            } catch (Exception e) {
-                log.error("Erro to get pages by Id {} - ", mangaId, e);
-                break;
-            }
-        } while (page != totalPages);
+        try {
+            var chapters = mangaBitClient.getChapterPages(mangaId, chapterId);
+            pageList.addAll(chapters.getData());
+        } catch (Exception e) {
+            log.error("Erro to get pages by Id {} - ", mangaId, e);
+        }
 
         return pageList;
     }
