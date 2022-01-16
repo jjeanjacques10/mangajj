@@ -1,5 +1,6 @@
 package com.mangajj.mangacontrol.gateway.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterMangaBit;
 
 import com.sun.istack.NotNull;
@@ -18,8 +19,10 @@ public class MangaDTO {
     private String title;
     private String status;
     private int volumes;
+    private int chapters;
     private String imageUrl;
     private String synopsis;
-    private List<ChapterMangaBit> chapters;
+    @JsonProperty("chapters_list")
+    private List<ChapterMangaBit> chaptersList;
 
 }

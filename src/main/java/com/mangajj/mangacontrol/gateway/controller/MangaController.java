@@ -58,7 +58,8 @@ public class MangaController {
                     .volumes(manga.getVolumes())
                     .imageUrl(manga.getImageUrl())
                     .synopsis(manga.getSynopsis())
-                    .chapters(chapters)
+                    .chapters(manga.getChapters())
+                    .chaptersList(chapters)
                     .build();
 
             return ResponseEntity.ok(mangaDTO);
