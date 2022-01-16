@@ -9,6 +9,7 @@ spring:
     properties.hibernate.format_sql: true
     generate-ddl: true
     hibernate.ddl.auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 logging:
   level:
@@ -18,10 +19,12 @@ api:
   source:
     mymangalist:
       url: 'https://api.jikan.moe/v3'
+    mangabit:
+      url: 'http://mangabit.yurikoster.me.uk:3000/api/v1'
 
 feign:
   client:
     config:
       default:
-        connectTimeout: 10000
-        readTimeout: 3000
+        connectTimeout: 20000
+        readTimeout: 4000

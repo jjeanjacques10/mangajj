@@ -1,13 +1,20 @@
 package com.mangajj.mangacontrol.gateway.job;
 
 import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.MyMangaListDataContract;
+import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.MyMangaListDataContract;
 import com.mangajj.mangacontrol.gateway.rest.MyanimelistClient;
 import com.mangajj.mangacontrol.services.MangaService;
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
+@Slf4j
 @Component
 public class ExtractMangasJob {
 
@@ -17,28 +24,36 @@ public class ExtractMangasJob {
     @Autowired
     MangaService service;
 
-    //@Scheduled(fixedDelay = 100000000)
+    @Autowired
+    MangaRepository repository;
+
+    @Async
+    @Scheduled(fixedDelay = 100000000)
     public void getMangas() {
-        for (int i = 1; i <= 4500; i++) {
-            try {
-                var responseMyManga = client.getMangasMyList((long) i);
 
-                var mangaEntity = service.getByTitle(responseMyManga.getTitle());
-                if (mangaEntity == null) insertMangaDatabase(responseMyManga);
-            } catch (FeignException e) {
-                System.out.println("Error - " + e.getMessage());
-            }
-        }
+        var listMangas = repository.findAll();
+
+        listMangas.stream()
+                .filter(manga -> manga.getImageUrl() == null) //TODO: Get by updated date and status
+                .forEach(mangaEntity -> {
+                    try {
+                        log.info("job update manga - {} {}", mangaEntity.getId(), mangaEntity.getTitle());
+                        var responseMyManga = client.getMangasMyList(mangaEntity.getId());
+
+                        mangaEntity.setVolumes(responseMyManga.getVolumes());
+                        mangaEntity.setChapters(responseMyManga.getChapters());
+                        mangaEntity.setImageUrl(responseMyManga.getImageUrl());
+                        mangaEntity.setCreatedAt(LocalDateTime.now());
+                        mangaEntity.setUpdatedAt(LocalDateTime.now());
+
+                        repository.save(mangaEntity);
+                        Thread.sleep(2000);
+                    } catch (FeignException e) {
+                        log.error("erro manga - {} {} - {}", mangaEntity.getId(), mangaEntity.getTitle(), e.getMessage());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
-    private void insertMangaDatabase(MyMangaListDataContract myManga) {
-        System.out.println("Creating in Database manga - " + myManga.getTitle());
-        MangaDTO manga = MangaDTO.builder()
-                .id(myManga.getId())
-                .status(myManga.getStatus())
-                .title(myManga.getTitle())
-                .synopsis(myManga.getSynopsis())
-                .build();
-        service.createManga(manga);
-    }
 }

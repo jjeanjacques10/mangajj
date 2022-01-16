@@ -1,4 +1,4 @@
-package com.mangajj.mangacontrol.gateway.rest.datacontract;
+package com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

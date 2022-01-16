@@ -1,7 +1,7 @@
 package com.mangajj.mangacontrol.gateway.rest;
 
-import com.mangajj.mangacontrol.gateway.rest.datacontract.MyMangaListDataContract;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.MyMangaListDataParentContract;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.MyMangaListDataContract;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.MyMangaListDataParentContract;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

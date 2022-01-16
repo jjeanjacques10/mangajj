@@ -3,15 +3,17 @@ package com.mangajj.mangacontrol.services.impl;
 import com.mangajj.mangacontrol.entity.MangaEntity;
 import com.mangajj.mangacontrol.exception.NotFoundManga;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.MyMangaListDataContract;
 import com.mangajj.mangacontrol.gateway.rest.MyanimelistClient;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.MyMangaListDataContract;
 import com.mangajj.mangacontrol.services.MyMangaListService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -29,8 +31,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
     public MangaEntity getFromSourceById(Long id) {
         var myManga = myanimelistClient.getMangasMyList(id);
 
-        MangaEntity mangaEntity = saveToDatabase(myManga);
-        return mangaEntity;
+        return saveToDatabase(myManga);
     }
 
     @Override
@@ -41,12 +42,10 @@ public class MyMangaListServiceImpl implements MyMangaListService {
             new NotFoundManga("No results for " + title);
         }
 
-        var mangasEntities = mylistResults.getResults()
-                .stream().map(manga -> saveToDatabase(manga))
-                .filter(mangaEntity -> mangaEntity != null)
+        return mylistResults.getResults()
+                .stream().map(this::saveToDatabase)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-
-        return mangasEntities;
     }
 
     private MangaEntity saveToDatabase(MyMangaListDataContract myManga) {
@@ -72,6 +71,8 @@ public class MyMangaListServiceImpl implements MyMangaListService {
                 .volumes(myManga.getVolumes())
                 .chapters(myManga.getChapters())
                 .imageUrl(myManga.getImageUrl())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 }

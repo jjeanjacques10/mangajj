@@ -8,8 +8,9 @@ Project created to control my magazines collection.
     - Lazy load process
 - [ ] Create a job to update my database
 - [ ] Add authentication
+- [ ] Pagination
 - [x] Deploy
-  - Heroku
+    - Heroku
 
 ## Technology
 
@@ -29,7 +30,11 @@ spring.datasource.username={username}
 spring.datasource.password={password}
 ```
 
-Using external API to populate database: https://github.com/jikan-me/jikan
+### Integrations
+
+Using external API to populate database: https://github.com/jikan-me/jikan.
+
+Using service [MangaBit](https://github.com/franproque/MangaBit) to scrap chapter pages.
 
 ### Config Local
 
