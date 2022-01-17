@@ -45,7 +45,8 @@ public class MangaBitServiceImpl implements MangaBitService {
     private void requestChapters(Long mangaId, String title) {
         try {
             var chapterRequested = ChapterRequestDataContract.builder().mangaId(mangaId).title(title).build();
-            mangaBitClient.requestNewChapters(chapterRequested);
+            var response = mangaBitClient.requestNewChapters(chapterRequested);
+            log.info("{} - Manga {} {} ", response.getMessage(), mangaId, title);
         } catch (Exception e) {
             log.error("Erro to request chapters - {}", e);
         }

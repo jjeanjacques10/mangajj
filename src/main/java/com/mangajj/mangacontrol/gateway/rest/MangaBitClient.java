@@ -3,6 +3,7 @@ package com.mangajj.mangacontrol.gateway.rest;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterMangaBitDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterPagesMangaBitDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterRequestDataContract;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterRequestMangaBitDataContract;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public interface MangaBitClient {
     ChapterPagesMangaBitDataContract getChapterPages(@PathVariable Long mangaId,
                                                      @PathVariable String chapterId);
 
-    @RequestMapping(method = RequestMethod.POST, value = "/chapters")
-    ChapterMangaBitDataContract requestNewChapters(@RequestBody ChapterRequestDataContract chapterRequestDataContract);
+    @RequestMapping(method = RequestMethod.POST, value = "/chapters", consumes = "application/json")
+    ChapterRequestMangaBitDataContract requestNewChapters(@RequestBody ChapterRequestDataContract chapterRequestDataContract);
 
 }

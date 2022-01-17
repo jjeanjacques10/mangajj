@@ -1,6 +1,7 @@
 package com.mangajj.mangacontrol.gateway.controller;
 
 import com.mangajj.mangacontrol.services.MangaBitService;
+import com.mangajj.mangacontrol.services.MangaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,13 @@ public class ReaderController {
     @Autowired
     private MangaBitService mangaBitService;
 
+    @Autowired
+    private MangaService mangaService;
+
     @GetMapping("/{idManga}")
     public ResponseEntity getChapters(@PathVariable Long idManga) {
-        var chapter = mangaBitService.getChapters(idManga, "");
+        var manga = mangaService.getById(idManga);
+        var chapter = mangaBitService.getChapters(idManga, manga.getTitle());
         return ResponseEntity.ok(chapter);
     }
 
