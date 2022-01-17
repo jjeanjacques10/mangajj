@@ -22,8 +22,8 @@ public class MangaBitServiceImpl implements MangaBitService {
     @Override
     public List<ChapterMangaBit> getChapters(Long mangaId, String title) {
         log.info("Get Chapters by Id {}", mangaId);
-        int totalPages = 1;
-        int page = 1;
+        int totalPages = 0;
+        int page = 0;
         List<ChapterMangaBit> chapterList = new ArrayList<>();
 
         do {
