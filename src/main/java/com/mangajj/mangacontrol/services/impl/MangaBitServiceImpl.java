@@ -37,7 +37,7 @@ public class MangaBitServiceImpl implements MangaBitService {
                 this.requestChapters(mangaId, title);
                 break;
             }
-        } while (page != totalPages);
+        } while (page != (totalPages - 1));
 
         return chapterList;
     }
