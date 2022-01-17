@@ -5,6 +5,7 @@ import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterMangaB
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterRequestDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.PageMangaBit;
 import com.mangajj.mangacontrol.services.MangaBitService;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,18 +33,21 @@ public class MangaBitServiceImpl implements MangaBitService {
                 chapterList.addAll(chapters.getChapters());
                 totalPages = chapters.getPages();
                 page++;
-            } catch (Exception e) {
-                log.error("Erro to get chapter by Id {} - ", mangaId, e);
+            } catch (FeignException e) {
                 this.requestChapters(mangaId, title);
                 break;
+            } catch (Exception e) {
+                log.error("Erro to get chapter by Id {} - ", mangaId, e);
+                break;
             }
-        } while (page != (totalPages - 1));
+        } while (page != totalPages);
 
         return chapterList;
     }
 
     private void requestChapters(Long mangaId, String title) {
         try {
+            log.info("Start scrap to manga {} {}", mangaId, title);
             var chapterRequested = ChapterRequestDataContract.builder().mangaId(mangaId).title(title).build();
             var response = mangaBitClient.requestNewChapters(chapterRequested);
             log.info("{} - Manga {} {} ", response.getMessage(), mangaId, title);

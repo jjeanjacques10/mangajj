@@ -27,11 +27,11 @@ public class MangaServiceImpl implements MangaService {
 
     @Override
     public MangaEntity getById(Long id) {
-        log.info("Get by Id [{}]", id);
+        log.info("Get manga by Id [{}]", id);
         var mangaFounded = repository.findById(id).orElse(null);
 
         if (mangaFounded == null) {
-            log.info("search in lazy load process to id [{}]", id);
+            log.info("Search in lazy load process to id [{}]", id);
             mangaFounded = myMangaListService.getFromSourceById(id);
         }
 
@@ -40,11 +40,11 @@ public class MangaServiceImpl implements MangaService {
 
     @Override
     public List<MangaEntity> getByTitle(String title) {
-        log.info("Get by Title [{}]", title);
+        log.info("Get manga by Title [{}]", title);
         var mangaEntities = repository.findByTitleIgnoreCaseContaining(title);
 
         if (mangaEntities.isEmpty()) {
-            log.info("search in lazy load process to title [{}]", title);
+            log.info("Search in lazy load process to title [{}]", title);
             mangaEntities = myMangaListService.getFromSourceByTitle(title);
         }
 

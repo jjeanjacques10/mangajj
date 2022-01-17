@@ -3,8 +3,6 @@ package com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 public class ChapterMangaBit {
 
@@ -17,6 +15,6 @@ public class ChapterMangaBit {
     private String releaseDate;
     private StatusChapter status;
     @JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private String createdAt;
 
 }
