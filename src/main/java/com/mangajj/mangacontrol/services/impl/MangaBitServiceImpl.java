@@ -23,7 +23,7 @@ public class MangaBitServiceImpl implements MangaBitService {
     @Override
     public List<ChapterMangaBit> getChapters(Long mangaId, String title) {
         log.info("Get Chapters by Id {}", mangaId);
-        int totalPages = 0;
+        int totalPages;
         int page = 0;
         List<ChapterMangaBit> chapterList = new ArrayList<>();
 
@@ -34,7 +34,9 @@ public class MangaBitServiceImpl implements MangaBitService {
                 totalPages = chapters.getPages();
                 page++;
             } catch (FeignException e) {
-                this.requestChapters(mangaId, title);
+                if (!e.getMessage().contains("Read timed out")) {
+                    this.requestChapters(mangaId, title);
+                }
                 break;
             } catch (Exception e) {
                 log.error("Erro to get chapter by Id {} - ", mangaId, e);

@@ -28,7 +28,6 @@ public class CollectionEntity implements Serializable {
 
     private String name;
 
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "manga_collection",
             joinColumns = @JoinColumn(name = "id_collection", referencedColumnName = "id"),

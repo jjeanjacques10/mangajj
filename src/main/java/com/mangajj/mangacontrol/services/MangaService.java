@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MangaService {
 
-    List<MangaEntity> getAllMangas();
+    List<MangaEntity> getAllMangas(int page, int limit);
 
     void createManga(MangaDTO manga);
 

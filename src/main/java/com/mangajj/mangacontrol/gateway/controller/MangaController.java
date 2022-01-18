@@ -25,8 +25,12 @@ public class MangaController {
     private MangaBitService mangaBitService;
 
     @GetMapping("/")
-    public ResponseEntity<List<MangaEntity>> getManga() {
-        var mangaList = service.getAllMangas();
+    public ResponseEntity<List<MangaEntity>> getManga(@RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "0") int limit) {
+        if (limit == 0) {
+            limit = Integer.MAX_VALUE;
+        }
+        var mangaList = service.getAllMangas(page, limit);
         return ResponseEntity.ok().body(mangaList);
     }
 

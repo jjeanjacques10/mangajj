@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public enum StatusChapter {
 
-    PROCESSING("processing"),
+    PROCESSING("Processing"),
     DONE("Done"),
     NOT_FOUND("Not Found");
 
