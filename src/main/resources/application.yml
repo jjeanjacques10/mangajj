@@ -20,7 +20,7 @@ api:
     mymangalist:
       url: 'https://api.jikan.moe/v3'
     mangabit:
-      url: 'http://mangabit.yurikoster.me.uk:3000/api/v1'
+      url: 'https://manga-bit-api.herokuapp.com/api/v1/'
 
 feign:
   client:
