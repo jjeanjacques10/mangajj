@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -34,7 +36,7 @@ public class ExtractMangasJob {
         var listMangas = repository.findAll();
 
         listMangas.stream()
-                .filter(manga -> manga.getImageUrl() == null) //TODO: Get by updated date and status
+                .filter(manga -> manga.getGenres() == null || manga.getGenres().isEmpty()) //TODO: Get by updated date and status
                 .forEach(mangaEntity -> {
                     try {
                         log.info("job update manga - {} {}", mangaEntity.getId(), mangaEntity.getTitle());
@@ -43,6 +45,8 @@ public class ExtractMangasJob {
                         mangaEntity.setVolumes(responseMyManga.getVolumes());
                         mangaEntity.setChapters(responseMyManga.getChapters());
                         mangaEntity.setImageUrl(responseMyManga.getImageUrl());
+                        mangaEntity.setPopularity(responseMyManga.getPopularity());
+                        mangaEntity.setGenres((ArrayList<String>) responseMyManga.getGenres().stream().map(genre -> genre.getName()).collect(Collectors.toList()));
                         mangaEntity.setCreatedAt(LocalDateTime.now());
                         mangaEntity.setUpdatedAt(LocalDateTime.now());
 

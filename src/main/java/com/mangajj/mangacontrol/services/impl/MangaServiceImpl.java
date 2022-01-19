@@ -7,13 +7,11 @@ import com.mangajj.mangacontrol.services.MangaService;
 import com.mangajj.mangacontrol.services.MyMangaListService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -24,11 +22,9 @@ public class MangaServiceImpl implements MangaService {
     private final MyMangaListService myMangaListService;
 
     @Override
-    public List<MangaEntity> getAllMangas(int page, int limit) {
+    public Page<MangaEntity> getAllMangas(Pageable pageable) {
         log.info("Getting all mangas");
-        Pageable pageable = PageRequest.of(page, limit);
-        var items = repository.findAll(pageable);
-        return items.stream().collect(Collectors.toList());
+        return repository.findAll(pageable);
     }
 
     @Override

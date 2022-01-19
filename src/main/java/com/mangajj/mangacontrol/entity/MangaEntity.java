@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,8 @@ public class MangaEntity implements Serializable {
     private String status;
     private int volumes;
     private int chapters;
+    private int popularity;
+    private ArrayList<String> genres;
 
     @JsonProperty("image_url")
     @Column(name = "image_url")

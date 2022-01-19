@@ -4,6 +4,7 @@ import com.mangajj.mangacontrol.entity.MangaEntity;
 import com.mangajj.mangacontrol.exception.NotFoundManga;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
 import com.mangajj.mangacontrol.gateway.rest.MyanimelistClient;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.GenresDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.MyMangaListDataContract;
 import com.mangajj.mangacontrol.services.MyMangaListService;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -71,6 +73,8 @@ public class MyMangaListServiceImpl implements MyMangaListService {
                 .volumes(myManga.getVolumes())
                 .chapters(myManga.getChapters())
                 .imageUrl(myManga.getImageUrl())
+                .popularity(myManga.getPopularity())
+                .genres((ArrayList<String>) myManga.getGenres().stream().map(GenresDataContract::getName).collect(Collectors.toList()))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
