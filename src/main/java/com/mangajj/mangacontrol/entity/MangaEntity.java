@@ -30,7 +30,7 @@ public class MangaEntity implements Serializable {
     private String status;
     private int volumes;
     private int chapters;
-    private int popularity;
+    private Integer popularity = 0;
     private ArrayList<String> genres;
 
     @JsonProperty("image_url")
