@@ -3,6 +3,8 @@ package com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MyMangaListDataContract {
 
@@ -13,9 +15,12 @@ public class MyMangaListDataContract {
     private String status;
     private int volumes;
     private int chapters;
+    private int popularity;
     private String synopsis;
     private String background;
     @JsonProperty("image_url")
     private String imageUrl;
+    private List<GenresDataContract> genres;
+
 
 }

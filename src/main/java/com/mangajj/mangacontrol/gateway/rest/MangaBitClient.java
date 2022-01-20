@@ -15,7 +15,7 @@ public interface MangaBitClient {
                                            @RequestParam(defaultValue = "0") int page);
 
     @RequestMapping(method = RequestMethod.GET, value = "/manga/{mangaId}/chapters/{chapterId}/pages")
-    ChapterPagesMangaBitDataContract getChapterPages(@PathVariable Long mangaId,
+    ChapterPagesMangaBitDataContract  getChapterPages(@PathVariable Long mangaId,
                                                      @PathVariable String chapterId);
 
     @RequestMapping(method = RequestMethod.POST, value = "/chapters", consumes = "application/json")
