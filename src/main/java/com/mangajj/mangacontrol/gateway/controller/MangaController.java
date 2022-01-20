@@ -1,7 +1,7 @@
 package com.mangajj.mangacontrol.gateway.controller;
 
 import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterMangaBit;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterListMangaBit;
 import com.mangajj.mangacontrol.services.MangaBitService;
 import com.mangajj.mangacontrol.services.MangaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +37,12 @@ public class MangaController {
                 limit = Integer.MAX_VALUE;
 
             Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "popularity"));
-            var mangaPaga = service.getAllMangas(pageable);
+            var mangaPage = service.getAllMangas(pageable);
 
-            var mangas = mangaPaga.getContent();
+            var mangas = mangaPage.getContent();
 
             response.put("data", mangas);
-            response.put("last_page", mangaPaga.getTotalPages());
+            response.put("last_page", mangaPage.getTotalPages());
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -59,6 +58,8 @@ public class MangaController {
             var mangaList = service.getByTitle(title);
 
             response.put("data", mangaList);
+            response.put("last_page", 1);
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.put("data", e.getMessage());
@@ -68,13 +69,14 @@ public class MangaController {
 
     @GetMapping("/{id}")
     public ResponseEntity getMangaById(@PathVariable Long id,
+                                       @RequestParam(defaultValue = "0") int chapters_page,
                                        @RequestParam(defaultValue = "false") boolean expanded_content) {
         try {
-            List<ChapterMangaBit> chapters = new ArrayList<>();
+            ChapterListMangaBit chapters = null;
             var manga = service.getById(id);
 
             if (expanded_content) {
-                chapters = mangaBitService.getChapters(id, manga.getTitle());
+                chapters = mangaBitService.getChapters(id, manga.getTitle(), chapters_page);
             }
 
             var mangaDTO = MangaDTO.builder()
