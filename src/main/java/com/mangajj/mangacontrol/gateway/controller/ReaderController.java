@@ -17,9 +17,10 @@ public class ReaderController {
     private MangaService mangaService;
 
     @GetMapping("/{idManga}")
-    public ResponseEntity getChapters(@PathVariable Long idManga) {
+    public ResponseEntity getChapters(@PathVariable Long idManga,
+                                      @RequestParam(defaultValue = "0") int chapters_page) {
         var manga = mangaService.getById(idManga);
-        var chapter = mangaBitService.getChapters(idManga, manga.getTitle());
+        var chapter = mangaBitService.getChapters(idManga, manga.getTitle(), chapters_page);
         return ResponseEntity.ok(chapter);
     }
 
