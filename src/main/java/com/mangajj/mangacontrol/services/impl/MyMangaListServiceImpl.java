@@ -38,10 +38,10 @@ public class MyMangaListServiceImpl implements MyMangaListService {
 
     @Override
     public List<MangaEntity> getFromSourceByTitle(String title) {
-        var mylistResults = myanimelistClient.getMangasByTitle(title, 1, 3);
+        var mylistResults = myanimelistClient.getMangasByTitle(title, 1, 3, "Manga");
 
         if (mylistResults.getResults().isEmpty()) {
-            new NotFoundManga("No results for " + title);
+            throw new NotFoundManga("No results for " + title);
         }
 
         return mylistResults.getResults()
