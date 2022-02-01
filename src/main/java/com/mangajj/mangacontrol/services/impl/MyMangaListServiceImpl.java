@@ -38,7 +38,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
 
     @Override
     public List<MangaEntity> getFromSourceByTitle(String title) {
-        var mylistResults = myanimelistClient.getMangasByTitle(title, 1, 3, "Manga");
+        var mylistResults = myanimelistClient.getMangasByTitle(title, 1, 4, "Manga");
 
         if (mylistResults.getResults().isEmpty()) {
             throw new NotFoundManga("No results for " + title);
@@ -46,28 +46,30 @@ public class MyMangaListServiceImpl implements MyMangaListService {
 
         return mylistResults.getResults()
                 .stream()
-                .filter(manga -> !manga.getGenres().contains(GenresDataContract.builder()
-                        .name("Hentai")
-                        .type("manga")
-                        .malId(12)
-                        .build()
-                )).map(this::saveToDatabase)
+                .map(this::saveToDatabase)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
+
 
     private MangaEntity saveToDatabase(MyMangaListDataContract myManga) {
         MangaEntity mangaEntity = null;
         try {
             Thread.sleep(2000);
             myManga = myanimelistClient.getMangasMyList(myManga.getId());
-            mangaEntity = buildMangaEntity(myManga);
-            repository.save(mangaEntity);
-            log.info("save {} in database", mangaEntity.getTitle());
+            if (isValidGenre(myManga.getGenres())) {
+                mangaEntity = buildMangaEntity(myManga);
+                repository.save(mangaEntity);
+                log.info("save {} in database", mangaEntity.getTitle());
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
         }
         return mangaEntity;
+    }
+
+    private boolean isValidGenre(List<GenresDataContract> genres) {
+        return genres.stream().anyMatch(g -> g.getMalId() != 12);
     }
 
     private MangaEntity buildMangaEntity(MyMangaListDataContract myManga) {
