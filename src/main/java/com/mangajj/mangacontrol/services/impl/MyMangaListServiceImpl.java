@@ -45,7 +45,13 @@ public class MyMangaListServiceImpl implements MyMangaListService {
         }
 
         return mylistResults.getResults()
-                .stream().map(this::saveToDatabase)
+                .stream()
+                .filter(manga -> !manga.getGenres().contains(GenresDataContract.builder()
+                        .name("Hentai")
+                        .type("manga")
+                        .malId(12)
+                        .build()
+                )).map(this::saveToDatabase)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
