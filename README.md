@@ -6,9 +6,9 @@ Project created to control my magazines collection.
 
 - [x] Integrate with some API
     - Lazy load process
-- [ ] Create a job to update my database
+- [x] Create a job to update my database
 - [ ] Add authentication
-- [ ] Pagination
+- [x] Pagination
 - [x] Deploy
     - Heroku
 
