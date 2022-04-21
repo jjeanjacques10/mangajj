@@ -1,5 +1,6 @@
 package com.mangajj.mangacontrol.gateway.controller;
 
+import com.mangajj.mangacontrol.entity.MangaEntity;
 import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterListMangaBit;
 import com.mangajj.mangacontrol.services.MangaBitService;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,37 +30,27 @@ public class MangaController {
     @Autowired
     private MangaBitService mangaBitService;
 
-    @GetMapping("/")
-    public ResponseEntity<Map<String, Object>> getManga(@RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "0") int limit) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            if (limit == 0)
-                limit = Integer.MAX_VALUE;
-
-            Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "popularity"));
-            var mangaPage = service.getAllMangas(pageable);
-
-            var mangas = mangaPage.getContent();
-
-            response.put("data", mangas);
-            response.put("last_page", mangaPage.getTotalPages());
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.put("data", e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getMangaByTitle(@RequestParam String title) {
+    public ResponseEntity<Map<String, Object>> getManga(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "0") int limit,
+                                                        @RequestParam(required = false) String title) {
         Map<String, Object> response = new HashMap<>();
+        List<MangaEntity> mangas = Collections.emptyList();
         try {
-            var mangaList = service.getByTitle(title);
+            if (title != null && title != "") {
+                mangas = service.getByTitle(title);
+                response.put("last_page", 1);
+            } else {
+                if (limit == 0)
+                    limit = Integer.MAX_VALUE;
 
-            response.put("data", mangaList);
-            response.put("last_page", 1);
+                Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "popularity"));
+                var mangaPage = service.getAllMangas(pageable);
+
+                mangas = mangaPage.getContent();
+                response.put("last_page", mangaPage.getTotalPages());
+            }
+            response.put("data", mangas);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {

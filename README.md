@@ -1,6 +1,6 @@
 # MangaJJ - Controling my collection
 
-Project created to control my magazines collection.
+Project created to control my magazines' collection.
 
 ## Steps
 
@@ -9,6 +9,7 @@ Project created to control my magazines collection.
 - [x] Create a job to update my database
 - [ ] Add authentication
 - [x] Pagination
+- [x] Swagger
 - [x] Deploy
     - Heroku
 
