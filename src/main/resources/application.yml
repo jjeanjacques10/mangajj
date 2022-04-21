@@ -28,3 +28,9 @@ feign:
       default:
         connectTimeout: 20000
         readTimeout: 6000
+
+# swagger-ui custom path
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"
+  show-actuator: true
