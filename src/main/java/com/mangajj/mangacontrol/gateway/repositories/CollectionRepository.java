@@ -9,6 +9,4 @@ public interface CollectionRepository extends JpaRepository<CollectionEntity, Lo
 
     List<CollectionEntity> findAll();
 
-
-
 }
