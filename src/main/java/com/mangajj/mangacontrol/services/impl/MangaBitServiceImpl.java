@@ -2,7 +2,6 @@ package com.mangajj.mangacontrol.services.impl;
 
 import com.mangajj.mangacontrol.gateway.rest.MangaBitClient;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterListMangaBit;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterMangaBit;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterRequestDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.PageMangaBit;
 import com.mangajj.mangacontrol.services.MangaBitService;
@@ -34,7 +33,7 @@ public class MangaBitServiceImpl implements MangaBitService {
             chapterList.setLastPage(chaptersMangaBit.getPages());
             chapterList.setChapterList(chaptersMangaBit.getChapters());
         } catch (FeignException e) {
-            if (!e.getMessage().contains("Read timed out"))
+            if (!e.getMessage().toLowerCase().contains("read timed out"))
                 this.requestChapters(mangaId, title);
         } catch (Exception e) {
             log.error("Erro to get chapter by Id {} - ", mangaId, e);
