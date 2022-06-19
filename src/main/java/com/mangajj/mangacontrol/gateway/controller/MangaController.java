@@ -5,6 +5,7 @@ import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterListMangaBit;
 import com.mangajj.mangacontrol.services.MangaBitService;
 import com.mangajj.mangacontrol.services.MangaService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +30,15 @@ public class MangaController {
     @Autowired
     private MangaBitService mangaBitService;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @GetMapping
     public ResponseEntity<Map<String, Object>> getManga(@RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "0") int limit,
                                                         @RequestParam(required = false) String title) {
         Map<String, Object> response = new HashMap<>();
-        List<MangaEntity> mangas = Collections.emptyList();
+        List<MangaEntity> mangas;
         try {
             if (title != null && title != "") {
                 mangas = service.getByTitle(title);
@@ -71,16 +74,8 @@ public class MangaController {
                 chapters = mangaBitService.getChapters(id, manga.getTitle(), chapters_page);
             }
 
-            var mangaDTO = MangaDTO.builder()
-                    .id(manga.getId())
-                    .title(manga.getTitle())
-                    .status(manga.getStatus())
-                    .volumes(manga.getVolumes())
-                    .imageUrl(manga.getImageUrl())
-                    .synopsis(manga.getSynopsis())
-                    .chapters(manga.getChapters())
-                    .chaptersList(chapters)
-                    .build();
+            var mangaDTO = mapper.map(manga, MangaDTO.class);
+            mangaDTO.setChaptersList(chapters);
 
             return ResponseEntity.ok(mangaDTO);
         } catch (Exception e) {

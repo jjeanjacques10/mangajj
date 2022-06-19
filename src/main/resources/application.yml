@@ -8,8 +8,9 @@ spring:
     defer-datasource-initialization: true
     properties.hibernate.format_sql: true
     generate-ddl: true
-    hibernate.ddl.auto: update
+    hibernate.ddl.auto: create
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties.hibernate.hbm2ddl.import_files: sql/populate-database.sql
 
 logging:
   level:
@@ -21,6 +22,10 @@ api:
       url: 'https://api.jikan.moe/v3'
     mangabit:
       url: 'https://manga-bit-api.herokuapp.com/api/v1/'
+
+jwt:
+  secret: naruto-uzumaki
+  expiration: 86400000
 
 feign:
   client:

@@ -7,11 +7,13 @@ Project created to control my magazines' collection.
 - [x] Integrate with some API
     - Lazy load process
 - [x] Create a job to update my database
+- [ ] User Control
 - [ ] Add authentication
 - [x] Pagination
 - [x] Swagger
 - [x] Deploy
-    - Heroku
+    - [x] Heroku
+- [ ] Spring Controller Advice
 
 ## Technology
 
