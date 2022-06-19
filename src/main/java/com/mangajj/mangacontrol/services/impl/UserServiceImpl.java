@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
         if (userExists.isPresent()) throw new IllegalArgumentException("User " + user.getEmail() + " already exists");
         user.setId(null);
-        user.setRoles(List.of(Role.builder().id(2L).name("USER").build()));
+        user.setRoles(Set.of(Role.builder().id(2L).name("USER").build()));
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);
