@@ -2,6 +2,7 @@ package com.mangajj.mangacontrol.gateway.controller;
 
 import com.mangajj.mangacontrol.entity.MangaEntity;
 import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
+import com.mangajj.mangacontrol.gateway.controller.dto.ResponseDTO;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterListMangaBit;
 import com.mangajj.mangacontrol.services.MangaBitService;
 import com.mangajj.mangacontrol.services.MangaService;
@@ -63,37 +64,37 @@ public class MangaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getMangaById(@PathVariable Long id,
-                                       @RequestParam(defaultValue = "0") int chapters_page,
-                                       @RequestParam(defaultValue = "false") boolean expanded_content) {
+    public ResponseEntity<ResponseDTO> getMangaById(@PathVariable Long id,
+                                                    @RequestParam(defaultValue = "0", name = "chapters_page") int chaptersPage,
+                                                    @RequestParam(defaultValue = "false", name = "expanded_content") boolean expandedContent) {
         try {
             ChapterListMangaBit chapters = null;
             var manga = service.getById(id);
 
-            if (expanded_content) {
-                chapters = mangaBitService.getChapters(id, manga.getTitle(), chapters_page);
+            if (expandedContent) {
+                chapters = mangaBitService.getChapters(id, manga.getTitle(), chaptersPage);
             }
 
             var mangaDTO = mapper.map(manga, MangaDTO.class);
             mangaDTO.setChaptersList(chapters);
 
-            return ResponseEntity.ok(mangaDTO);
+            return ResponseEntity.ok(ResponseDTO.builder().data(mangaDTO).build());
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            return ResponseEntity.internalServerError().body(ResponseDTO.builder().data(e.getMessage()).build());
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> createManga(@Validated @RequestBody MangaDTO manga) {
+    public ResponseEntity<ResponseDTO> createManga(@Validated @RequestBody MangaDTO manga) {
         service.createManga(manga);
-        return ResponseEntity.ok().body("created manga: " + manga.getTitle());
+        return ResponseEntity.ok().body(ResponseDTO.builder().data("created manga: " + manga.getTitle()).build());
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<String>> createBatchManga(@RequestBody List<MangaDTO> mangas) {
+    public ResponseEntity<ResponseDTO> createBatchManga(@RequestBody List<MangaDTO> mangas) {
         service.createBatch(mangas);
         var titlesCreated = mangas.stream().map(MangaDTO::getTitle).collect(Collectors.toList());
-        return ResponseEntity.ok().body(titlesCreated);
+        return ResponseEntity.ok().body(ResponseDTO.builder().data(titlesCreated).build());
     }
 
     @DeleteMapping("/{id}")

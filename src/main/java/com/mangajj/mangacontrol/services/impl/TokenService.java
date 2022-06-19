@@ -48,6 +48,6 @@ public class TokenService {
 
     public UUID getIdUser(String token) {
         Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
-        return UUID.fromString(claims.getSubject());
+        return UUID.fromString(claims.getId());
     }
 }

@@ -11,10 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @Builder
@@ -42,12 +39,12 @@ public class UserEntity implements UserDetails {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private List<CollectionEntity> collections = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Role> roles = new ArrayList();
+    @JoinColumn(name = "id")
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<CollectionEntity> collections = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

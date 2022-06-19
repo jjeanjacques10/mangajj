@@ -21,9 +21,10 @@ public class CollectionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "VARCHAR(36)")
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Column(length = 36)
     private UUID id;
 
     private String name;
