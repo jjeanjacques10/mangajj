@@ -7,8 +7,8 @@ Project created to control my magazines' collection.
 - [x] Integrate with some API
     - Lazy load process
 - [x] Create a job to update my database
-- [ ] User Control
-- [ ] Add authentication
+- [x] User Control
+- [x] Add authentication
 - [x] Pagination
 - [x] Swagger
 - [x] Deploy
@@ -56,6 +56,12 @@ PASSWORD_DB=;
 URL_DB=jdbc:h2:mem:AZ\;DB_CLOSE_DELAY\=-1\;DB_CLOSE_ON_EXIT\=FALSE;
 USER_DB=sa
 ```
+
+### Postman
+
+Access postman collection **[here](./files/Manga%20JJ.postman_collection.json)**
+
+<img src="./files/collectionMangaJJ.png">
 
 ---
 Developed by [Jean Jacques Barros](https://github.com/jjeanjacques10)
