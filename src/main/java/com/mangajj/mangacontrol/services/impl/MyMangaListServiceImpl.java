@@ -1,7 +1,7 @@
 package com.mangajj.mangacontrol.services.impl;
 
 import com.mangajj.mangacontrol.entity.MangaEntity;
-import com.mangajj.mangacontrol.exception.NotFoundManga;
+import com.mangajj.mangacontrol.shared.exception.NotFoundManga;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
 import com.mangajj.mangacontrol.gateway.rest.MyanimelistClient;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.GenresDataContract;

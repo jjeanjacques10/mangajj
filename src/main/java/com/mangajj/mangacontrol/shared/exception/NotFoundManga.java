@@ -1,4 +1,4 @@
-package com.mangajj.mangacontrol.exception;
+package com.mangajj.mangacontrol.shared.exception;
 
 public class NotFoundManga extends RuntimeException {
 
