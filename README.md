@@ -1,18 +1,45 @@
-# MangaJJ - Controling my collection
+## MangaJJ - API
 
-Project created to control my magazines' collection.
+<p align="center">
+    <img src="./files/MangaJJLogo.jpg" width="300"/>
+    <br />
+    <br />
+    <a href="https://mangajj.herokuapp.com/manga?limit=10&page=0&title=Naruto">Demo</a>
+    ·
+    <a href="https://github.com/jjeanjacques10/mangajj/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/jjeanjacques10/mangajj/issues">Request Feature</a>
+</p>
+
+<p align="center">
+   <a href="https://www.linkedin.com/in/jjean-jacques10/">
+      <img alt="Jean Jacques Barros" src="https://img.shields.io/badge/-JeanJacquesBarros-FFCC00?style=flat&logo=Linkedin&logoColor=white" />
+   </a>
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/jjeanjacques10/mangajj?color=FFCC00">
+
+  <a href="https://github.com/jjeanjacques10/mangajj/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jjeanjacques10/mangajj?color=FFCC00">
+  </a>
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-FFCC00">
+  <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/jjeanjacques10/mangajj?color=FFCC00" />
+  <a href="https://github.com/jjeanjacques10/mangajj/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/jjeanjacques10/mangajj?color=FFCC00&logo=github">
+  </a>
+</p>
+
+It's a project to read manga online and control your manga collection. It's is possible to search for manga, add it to your collection.
 
 ## Steps
 
 - [x] Integrate with some API
-    - Lazy load process
+  - Lazy load process
 - [x] Create a job to update my database
 - [x] User Control
 - [x] Add authentication
 - [x] Pagination
 - [x] Swagger
 - [x] Deploy
-    - [x] Heroku
+  - [x] Heroku
 - [ ] Spring Controller Advice
 
 ## Technology
@@ -35,7 +62,7 @@ spring.datasource.password={password}
 
 ### Integrations
 
-Using external API to populate database: https://github.com/jikan-me/jikan.
+Using external API to populate database: <https://github.com/jikan-me/jikan>.
 
 Using service [MangaBit](https://github.com/franproque/MangaBit) to scrap chapter pages.
 

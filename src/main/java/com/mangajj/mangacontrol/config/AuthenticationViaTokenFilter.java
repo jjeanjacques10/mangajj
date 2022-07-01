@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
-public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
+public class AuthenticationViaTokenFilter extends OncePerRequestFilter {
 
     private TokenService tokenService;
     private UserRepository userRepository;
 
-    AutenticacaoViaTokenFilter(TokenService tokenService, UserRepository userRepository) {
+    AuthenticationViaTokenFilter(TokenService tokenService, UserRepository userRepository) {
         this.tokenService = tokenService;
         this.userRepository = userRepository;
     }
