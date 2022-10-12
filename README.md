@@ -90,5 +90,12 @@ Access postman collection **[here](./files/Manga%20JJ.postman_collection.json)**
 
 <img src="./files/collectionMangaJJ.png">
 
+### Documentation Swagger
+
+Access Swagger UI
+
+- [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- [https://mangajj.herokuapp.com/swagger-ui/index.html](https://mangajj.herokuapp.com/swagger-ui/index.html)
+
 ---
 Developed by [Jean Jacques Barros](https://github.com/jjeanjacques10)
