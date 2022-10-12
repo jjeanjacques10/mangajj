@@ -8,15 +8,7 @@ import java.util.List;
 @Data
 public class MyMangaListDataParentContract {
 
-    @JsonProperty("request_hash")
-    private String requestHash;
-
-    @JsonProperty("request_cached")
-    private String requestCached;
-
-    @JsonProperty("request_cache_expiry")
-    private String requestCacheExpiry;
-
-    private List<MyMangaListDataContract> results;
+    @JsonProperty("data")
+    private List<MyMangaListDataContract> data;
 
 }

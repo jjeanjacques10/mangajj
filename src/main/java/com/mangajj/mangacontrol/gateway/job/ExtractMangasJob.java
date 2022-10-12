@@ -36,9 +36,11 @@ public class ExtractMangasJob {
         var listMangas = repository.findAll();
 
         listMangas.stream()
-                .filter(manga -> manga.getGenres() == null || manga.getGenres().isEmpty()) //TODO: Get by updated date and status
+                .filter(manga -> manga.getGenres().contains("Hentai")) //TODO: Get by updated date and status
                 .forEach(mangaEntity -> {
-                    try {
+                    log.info("job delete manga - {} {}", mangaEntity.getId(), mangaEntity.getTitle());
+                    repository.delete(mangaEntity);
+                   /* try {
                         log.info("job update manga - {} {}", mangaEntity.getId(), mangaEntity.getTitle());
                         var responseMyManga = client.getMangasMyList(mangaEntity.getId());
 
@@ -49,14 +51,13 @@ public class ExtractMangasJob {
                         mangaEntity.setGenres((ArrayList<String>) responseMyManga.getGenres().stream().map(genre -> genre.getName()).collect(Collectors.toList()));
                         mangaEntity.setCreatedAt(LocalDateTime.now());
                         mangaEntity.setUpdatedAt(LocalDateTime.now());
-
                         repository.save(mangaEntity);
                         Thread.sleep(2000);
                     } catch (FeignException e) {
                         log.error("erro manga - {} {} - {}", mangaEntity.getId(), mangaEntity.getTitle(), e.getMessage());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 });
     }
 

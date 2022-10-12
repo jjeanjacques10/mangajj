@@ -29,13 +29,9 @@ public class AuthenticationController {
     public ResponseEntity<TokenDto> authenticate(@RequestBody @Valid LoginDTO form) {
         UsernamePasswordAuthenticationToken dataLogin = form.converter();
 
-        try {
-            Authentication authentication = authManager.authenticate(dataLogin);
-            String token = tokenService.generateToken(authentication);
+        Authentication authentication = authManager.authenticate(dataLogin);
+        String token = tokenService.generateToken(authentication);
 
-            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(new TokenDto(token, "Bearer"));
     }
 }

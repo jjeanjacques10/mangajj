@@ -1,6 +1,6 @@
 package com.mangajj.mangacontrol.gateway.rest;
 
-import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.MyMangaListDataContract;
+import com.mangajj.mangacontrol.gateway.rest.datacontract.WrapperMyMangaListDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.MyMangaListDataParentContract;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface MyanimelistClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/manga/{id}")
-    MyMangaListDataContract getMangasMyList(@PathVariable Long id);
+    WrapperMyMangaListDataContract getMangasMyList(@PathVariable Long id);
 
-    @RequestMapping(method = RequestMethod.GET, value = "/search/manga")
+    @RequestMapping(method = RequestMethod.GET, value = "/manga")
     MyMangaListDataParentContract getMangasByTitle(@RequestParam(value = "q") String title,
                                                    @RequestParam(value = "page", defaultValue = "1") int page,
                                                    @RequestParam(value = "limit", defaultValue = "5") int limit,

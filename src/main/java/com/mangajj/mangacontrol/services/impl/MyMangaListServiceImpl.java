@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,40 +33,38 @@ public class MyMangaListServiceImpl implements MyMangaListService {
     @Override
     public MangaEntity getFromSourceById(Long id) {
         var myManga = myanimelistClient.getMangasMyList(id);
+        if (myManga == null) throw new NotFoundManga("Manga not found id " + id);
 
-        return saveToDatabase(myManga);
+        return saveToDatabase(myManga.getData());
     }
 
     @Override
     public List<MangaEntity> getFromSourceByTitle(String title) {
         var mylistResults = myanimelistClient.getMangasByTitle(title, 1, 4, "Manga");
 
-        if (mylistResults.getResults().isEmpty()) {
-            throw new NotFoundManga("No results for " + title);
-        }
+        if (mylistResults.getData().isEmpty()) throw new NotFoundManga("No results for " + title);
 
-        return mylistResults.getResults()
+        return mylistResults.getData()
                 .stream()
                 .map(this::saveToDatabase)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
-
+    @Transactional
     private MangaEntity saveToDatabase(MyMangaListDataContract myManga) {
-        MangaEntity mangaEntity = null;
         try {
-            Thread.sleep(2000);
-            myManga = myanimelistClient.getMangasMyList(myManga.getId());
-            if (isValidGenre(myManga.getGenres())) {
-                mangaEntity = buildMangaEntity(myManga);
-                repository.save(mangaEntity);
-                log.info("save {} in database", mangaEntity.getTitle());
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
+            Thread.sleep(1000);
+            myManga = myanimelistClient.getMangasMyList(myManga.getId()).getData();
+            if (!isValidGenre(myManga.getGenres())) return null;
+            var mangaEntity = buildMangaEntity(myManga);
+            repository.save(mangaEntity);
+            log.info("save {} in database", mangaEntity.getTitle());
+            return mangaEntity;
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return null;
         }
-        return mangaEntity;
     }
 
     private boolean isValidGenre(List<GenresDataContract> genres) {
@@ -80,7 +79,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
                 .title(myManga.getTitle())
                 .volumes(myManga.getVolumes())
                 .chapters(myManga.getChapters())
-                .imageUrl(myManga.getImageUrl())
+                .imageUrl(myManga.getImages().getJpg().getLargeImageUrl())
                 .popularity(myManga.getPopularity())
                 .genres((ArrayList<String>) myManga.getGenres().stream().map(GenresDataContract::getName).collect(Collectors.toList()))
                 .createdAt(LocalDateTime.now())
