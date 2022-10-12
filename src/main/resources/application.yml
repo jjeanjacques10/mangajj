@@ -1,15 +1,15 @@
 spring:
   datasource:
     driver-class-name: ${DRIVER_DB:com.mysql.cj.jdbc.Driver}
-    username: ${USER_DB}
-    password: ${PASSWORD_DB}
-    url: ${URL_DB}
+    username: ${USER_DB:root}
+    password: ${PASSWORD_DB:manga-jj-password}
+    url: ${URL_DB:jdbc:mysql://localhost:3306/mangadb?useSSL=false}
   jpa:
     defer-datasource-initialization: true
     properties.hibernate.format_sql: true
     generate-ddl: true
     hibernate.ddl.auto: create
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: ${DIALECT_DB:org.hibernate.dialect.MySQL5InnoDBDialect}
     properties.hibernate.hbm2ddl.import_files: sql/populate-database.sql
 
 logging:
@@ -19,7 +19,7 @@ logging:
 api:
   source:
     mymangalist:
-      url: 'https://api.jikan.moe/v3'
+      url: 'https://api.jikan.moe/v4'
     mangabit:
       url: 'https://manga-bit-api.herokuapp.com/api/v1/'
 

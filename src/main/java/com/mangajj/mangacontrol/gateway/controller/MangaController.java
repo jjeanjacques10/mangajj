@@ -40,48 +40,39 @@ public class MangaController {
                                                         @RequestParam(required = false) String title) {
         Map<String, Object> response = new HashMap<>();
         List<MangaEntity> mangas;
-        try {
-            if (title != null && title != "") {
-                mangas = service.getByTitle(title);
-                response.put("last_page", 1);
-            } else {
-                if (limit == 0)
-                    limit = Integer.MAX_VALUE;
 
-                Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "popularity"));
-                var mangaPage = service.getAllMangas(pageable);
+        if (title != null && title.equals("")) {
+            mangas = service.getByTitle(title);
+            response.put("last_page", 1);
+        } else {
+            if (limit == 0)
+                limit = Integer.MAX_VALUE;
 
-                mangas = mangaPage.getContent();
-                response.put("last_page", mangaPage.getTotalPages());
-            }
-            response.put("data", mangas);
+            Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "popularity"));
+            var mangaPage = service.getAllMangas(pageable);
 
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.put("data", e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            mangas = mangaPage.getContent();
+            response.put("last_page", mangaPage.getTotalPages());
         }
+        response.put("data", mangas);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO> getMangaById(@PathVariable Long id,
                                                     @RequestParam(defaultValue = "0", name = "chapters_page") int chaptersPage,
                                                     @RequestParam(defaultValue = "false", name = "expanded_content") boolean expandedContent) {
-        try {
-            ChapterListMangaBit chapters = null;
-            var manga = service.getById(id);
+        ChapterListMangaBit chapters = null;
+        var manga = service.getById(id);
 
-            if (expandedContent) {
-                chapters = mangaBitService.getChapters(id, manga.getTitle(), chaptersPage);
-            }
-
-            var mangaDTO = mapper.map(manga, MangaDTO.class);
-            mangaDTO.setChaptersList(chapters);
-
-            return ResponseEntity.ok(ResponseDTO.builder().data(mangaDTO).build());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ResponseDTO.builder().data(e.getMessage()).build());
+        if (expandedContent) {
+            chapters = mangaBitService.getChapters(id, manga.getTitle(), chaptersPage);
         }
+
+        var mangaDTO = mapper.map(manga, MangaDTO.class);
+        mangaDTO.setChaptersList(chapters);
+
+        return ResponseEntity.ok(ResponseDTO.builder().data(mangaDTO).build());
     }
 
     @PostMapping("/")
