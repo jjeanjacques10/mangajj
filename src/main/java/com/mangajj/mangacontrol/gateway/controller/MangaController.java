@@ -41,7 +41,7 @@ public class MangaController {
         Map<String, Object> response = new HashMap<>();
         List<MangaEntity> mangas;
 
-        if (title != null && title.equals("")) {
+        if (title != null && !title.equals("")) {
             mangas = service.getByTitle(title);
             response.put("last_page", 1);
         } else {
