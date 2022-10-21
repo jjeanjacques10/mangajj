@@ -5,6 +5,7 @@ import com.mangajj.mangacontrol.gateway.repositories.UserRepository;
 import com.mangajj.mangacontrol.services.impl.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -39,9 +40,9 @@ public class AuthenticationViaTokenFilter extends OncePerRequestFilter {
 
     private void authenticateClient(String token) {
         UUID id = tokenService.getIdUser(token);
-        UserEntity user = userRepository.findById(id).get();
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getRoles());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getRoleEntities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

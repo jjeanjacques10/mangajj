@@ -1,9 +1,12 @@
 spring:
   jpa:
     defer-datasource-initialization: true
-    properties.hibernate.format_sql: true
     generate-ddl: true
     hibernate.ddl.auto: update
+    properties:
+      hibernate:
+        generate_statistics: false
+        format_sql: true
 
 feign:
   client:

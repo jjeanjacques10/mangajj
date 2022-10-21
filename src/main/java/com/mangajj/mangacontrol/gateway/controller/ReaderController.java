@@ -1,6 +1,6 @@
 package com.mangajj.mangacontrol.gateway.controller;
 
-import com.mangajj.mangacontrol.services.MangaBitService;
+import com.mangajj.mangacontrol.services.ChapterService;
 import com.mangajj.mangacontrol.services.MangaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,23 +11,20 @@ import org.springframework.web.bind.annotation.*;
 public class ReaderController {
 
     @Autowired
-    private MangaBitService mangaBitService;
+    private ChapterService mangaBitService;
 
     @Autowired
     private MangaService mangaService;
 
-    @GetMapping("/{idManga}")
-    public ResponseEntity getChapters(@PathVariable Long idManga,
-                                      @RequestParam(defaultValue = "0") int chapters_page) {
-        var manga = mangaService.getById(idManga);
-        var chapter = mangaBitService.getChapters(idManga, manga.getTitle(), chapters_page);
+    @GetMapping("/manga/{idManga}")
+    public ResponseEntity getChapters(@PathVariable Long idManga) {
+        var chapter = mangaBitService.getMangaChapters(idManga);
         return ResponseEntity.ok(chapter);
     }
 
-    @GetMapping("/{idManga}/chapter/{idChapter}")
-    public ResponseEntity getChapters(@PathVariable Long idManga,
-                                      @PathVariable String idChapter) {
-        var pages = mangaBitService.getPages(idManga, idChapter);
+    @GetMapping("/chapter/{idChapter}")
+    public ResponseEntity getChapter(@PathVariable Long idChapter) {
+        var pages = mangaBitService.getChapter(idChapter);
         return ResponseEntity.ok(pages);
     }
 }

@@ -1,12 +1,12 @@
 package com.mangajj.mangacontrol.services.impl;
 
 import com.mangajj.mangacontrol.entity.MangaEntity;
-import com.mangajj.mangacontrol.shared.exception.NotFoundManga;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
 import com.mangajj.mangacontrol.gateway.rest.MyanimelistClient;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.GenresDataContract;
 import com.mangajj.mangacontrol.gateway.rest.datacontract.mymangalist.MyMangaListDataContract;
 import com.mangajj.mangacontrol.services.MyMangaListService;
+import com.mangajj.mangacontrol.shared.exception.NotFoundMangaException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -33,38 +34,48 @@ public class MyMangaListServiceImpl implements MyMangaListService {
     @Override
     public MangaEntity getFromSourceById(Long id) {
         var myManga = myanimelistClient.getMangasMyList(id);
-        if (myManga == null) throw new NotFoundManga("Manga not found id " + id);
-
-        return saveToDatabase(myManga.getData());
+        if (myManga == null) throw new NotFoundMangaException("Manga not found id " + id);
+        return saveToDatabase(myManga.getData()).orElseThrow(() -> new NotFoundMangaException("Manga not found id " + id));
     }
 
     @Override
     public List<MangaEntity> getFromSourceByTitle(String title) {
         var mylistResults = myanimelistClient.getMangasByTitle(title, 1, 4, "Manga");
 
-        if (mylistResults.getData().isEmpty()) throw new NotFoundManga("No results for " + title);
+        if (mylistResults.getData().isEmpty()) throw new NotFoundMangaException("No results for " + title);
 
-        return mylistResults.getData()
+        List<MangaEntity> mangaEntities = mylistResults.getData()
                 .stream()
-                .map(this::saveToDatabase)
+                .map(m -> getMyMangaListItem(m, true))
                 .filter(Objects::nonNull)
+                .map(this::buildMangaEntity)
                 .collect(Collectors.toList());
+        mangaEntities.forEach(m -> log.info("save {} in database", m.getTitle()));
+        return repository.saveAll(mangaEntities);
     }
 
     @Transactional
-    private MangaEntity saveToDatabase(MyMangaListDataContract myManga) {
+    private Optional<MangaEntity> saveToDatabase(MyMangaListDataContract myManga) {
         try {
-            Thread.sleep(1000);
-            myManga = myanimelistClient.getMangasMyList(myManga.getId()).getData();
-            if (!isValidGenre(myManga.getGenres())) return null;
-            var mangaEntity = buildMangaEntity(myManga);
+            var mangaEntity = buildMangaEntity(getMyMangaListItem(myManga, false));
             repository.save(mangaEntity);
-            log.info("save {} in database", mangaEntity.getTitle());
-            return mangaEntity;
+            return Optional.of(mangaEntity);
         } catch (Exception ex) {
             log.error(ex.getMessage());
-            return null;
+            return Optional.empty();
         }
+    }
+
+    private MyMangaListDataContract getMyMangaListItem(MyMangaListDataContract myManga, boolean withSleep) {
+        MyMangaListDataContract manga = null;
+        try {
+            if (withSleep) Thread.sleep(1000);
+            manga = myanimelistClient.getMangasMyList(myManga.getId()).getData();
+            if (!isValidGenre(manga.getGenres())) return null;
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
+        return manga;
     }
 
     private boolean isValidGenre(List<GenresDataContract> genres) {
@@ -78,7 +89,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
                 .synopsis(myManga.getSynopsis())
                 .title(myManga.getTitle())
                 .volumes(myManga.getVolumes())
-                .chapters(myManga.getChapters())
+                .chaptersNumber(myManga.getChapters())
                 .imageUrl(myManga.getImages().getJpg().getLargeImageUrl())
                 .popularity(myManga.getPopularity())
                 .genres((ArrayList<String>) myManga.getGenres().stream().map(GenresDataContract::getName).collect(Collectors.toList()))

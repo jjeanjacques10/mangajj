@@ -1,6 +1,6 @@
 package com.mangajj.mangacontrol.services.impl;
 
-import com.mangajj.mangacontrol.entity.Role;
+import com.mangajj.mangacontrol.entity.RoleEntity;
 import com.mangajj.mangacontrol.entity.UserEntity;
 import com.mangajj.mangacontrol.gateway.repositories.UserRepository;
 import com.mangajj.mangacontrol.services.UserService;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
         if (userExists.isPresent()) throw new IllegalArgumentException("User " + user.getEmail() + " already exists");
         user.setId(null);
-        user.setRoles(Set.of(Role.builder().id(2L).name("USER").build()));
+        user.setRoleEntities(Set.of(RoleEntity.builder().id(2L).name("USER").build()));
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);

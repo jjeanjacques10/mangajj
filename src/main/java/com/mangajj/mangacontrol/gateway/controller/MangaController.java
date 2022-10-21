@@ -1,10 +1,10 @@
 package com.mangajj.mangacontrol.gateway.controller;
 
 import com.mangajj.mangacontrol.entity.MangaEntity;
+import com.mangajj.mangacontrol.entity.chapter.ChapterEntity;
 import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
 import com.mangajj.mangacontrol.gateway.controller.dto.ResponseDTO;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterListMangaBit;
-import com.mangajj.mangacontrol.services.MangaBitService;
+import com.mangajj.mangacontrol.services.ChapterService;
 import com.mangajj.mangacontrol.services.MangaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,15 +30,13 @@ public class MangaController {
     private MangaService service;
 
     @Autowired
-    private MangaBitService mangaBitService;
+    private ChapterService chapterService;
 
     @Autowired
     private ModelMapper mapper;
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getManga(@RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "0") int limit,
-                                                        @RequestParam(required = false) String title) {
+    public ResponseEntity<Map<String, Object>> getManga(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "0") int limit, @RequestParam(required = false) String title) {
         Map<String, Object> response = new HashMap<>();
         List<MangaEntity> mangas;
 
@@ -45,8 +44,7 @@ public class MangaController {
             mangas = service.getByTitle(title);
             response.put("last_page", 1);
         } else {
-            if (limit == 0)
-                limit = Integer.MAX_VALUE;
+            if (limit == 0) limit = Integer.MAX_VALUE;
 
             Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "popularity"));
             var mangaPage = service.getAllMangas(pageable);
@@ -59,18 +57,15 @@ public class MangaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getMangaById(@PathVariable Long id,
-                                                    @RequestParam(defaultValue = "0", name = "chapters_page") int chaptersPage,
-                                                    @RequestParam(defaultValue = "false", name = "expanded_content") boolean expandedContent) {
-        ChapterListMangaBit chapters = null;
+    public ResponseEntity<ResponseDTO> getMangaById(@PathVariable Long id, @RequestParam(defaultValue = "0", name = "chapters_page") int chaptersPage, @RequestParam(defaultValue = "false", name = "expanded_content") boolean expandedContent) {
+        List<ChapterEntity> chapters = new ArrayList<>();
         var manga = service.getById(id);
 
-        if (expandedContent) {
-            chapters = mangaBitService.getChapters(id, manga.getTitle(), chaptersPage);
-        }
+        // if (expandedContent) {
+        //   chapters = chapterService.getMangaChapters(id);
+        //}
 
         var mangaDTO = mapper.map(manga, MangaDTO.class);
-        mangaDTO.setChaptersList(chapters);
 
         return ResponseEntity.ok(ResponseDTO.builder().data(mangaDTO).build());
     }
