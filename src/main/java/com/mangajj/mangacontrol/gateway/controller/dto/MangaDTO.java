@@ -1,17 +1,21 @@
 package com.mangajj.mangacontrol.gateway.controller.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mangajj.mangacontrol.gateway.rest.datacontract.mangabit.ChapterListMangaBit;
-import com.sun.istack.NotNull;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class MangaDTO {
 
     @NotNull
@@ -20,11 +24,10 @@ public class MangaDTO {
     private String title;
     private String status;
     private int volumes;
-    private int chapters;
+    private int chaptersNumber;
     private Integer popularity;
     private String imageUrl;
     private String synopsis;
-    @JsonProperty("chapters_list")
-    private ChapterListMangaBit chaptersList;
+    private List<ChapterDTO> chapters;
 
 }

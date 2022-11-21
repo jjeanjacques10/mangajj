@@ -1,11 +1,14 @@
 package com.mangajj.mangacontrol.entity;
 
+import com.mangajj.mangacontrol.entity.chapter.ChapterEntity;
 import lombok.*;
 import org.hibernate.annotations.Cache;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -15,9 +18,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
-@Setter
-@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,7 +34,7 @@ public class MangaEntity implements Serializable {
     private String title;
     private String status;
     private int volumes;
-    private int chapters;
+    private int chaptersNumber;
     private int popularity;
     private ArrayList<String> genres;
 
@@ -51,7 +53,13 @@ public class MangaEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    @ManyToMany(mappedBy = "mangas", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "manga_id")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ChapterEntity> chapters;
+
     @JsonBackReference
+    @ManyToMany(mappedBy = "mangas", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CollectionEntity> collection;
+
 }

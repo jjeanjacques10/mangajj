@@ -40,7 +40,7 @@ public class UserEntity implements UserDetails {
     private LocalDateTime createdAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+    private Set<RoleEntity> roleEntities = new HashSet<>();
 
     @JoinColumn(name = "id")
     @OneToMany(cascade = CascadeType.ALL)
@@ -48,7 +48,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roleEntities;
     }
 
     @Override

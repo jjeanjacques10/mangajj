@@ -9,12 +9,12 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 
 @Data
-@Builder
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Roles")
-public class Role implements GrantedAuthority {
+public class RoleEntity implements GrantedAuthority {
     private static final long serialVersionUID = 1L;
 
     @Id

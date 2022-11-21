@@ -6,15 +6,18 @@ spring:
     url: ${URL_DB:jdbc:mysql://localhost:3306/mangadb?useSSL=false}
   jpa:
     defer-datasource-initialization: true
-    properties.hibernate.format_sql: true
     generate-ddl: true
-    hibernate.ddl.auto: create
+    hibernate.ddl-auto: update
     database-platform: ${DIALECT_DB:org.hibernate.dialect.MySQL5InnoDBDialect}
-    properties.hibernate.hbm2ddl.import_files: sql/populate-database.sql
+    properties:
+      javax.persistence.query.timeout: 20000
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
 
 logging:
   level:
-    root: ${LOGGING_LEVEL_ROOT:info}
+    root: ${LOGGING_LEVEL_ROOT:INFO}
 
 api:
   source:
@@ -22,6 +25,8 @@ api:
       url: 'https://api.jikan.moe/v4'
     mangabit:
       url: 'https://manga-bit-api.herokuapp.com/api/v1/'
+    mangascrapper:
+      url: 'http://localhost:3000/'
 
 jwt:
   secret: naruto-uzumaki

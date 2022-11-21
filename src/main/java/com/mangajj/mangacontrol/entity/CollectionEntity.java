@@ -10,9 +10,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+@Data
 @Entity
-@Setter
-@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

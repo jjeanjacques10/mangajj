@@ -1,33 +1,37 @@
 package com.mangajj.mangacontrol.gateway.controller;
 
-import com.mangajj.mangacontrol.services.MangaBitService;
-import com.mangajj.mangacontrol.services.MangaService;
+import com.mangajj.mangacontrol.gateway.controller.dto.ChapterDTO;
+import com.mangajj.mangacontrol.services.ChapterService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/read")
 public class ReaderController {
 
     @Autowired
-    private MangaBitService mangaBitService;
+    private ChapterService chapterService;
 
     @Autowired
-    private MangaService mangaService;
+    private ModelMapper mapper;
 
-    @GetMapping("/{idManga}")
-    public ResponseEntity getChapters(@PathVariable Long idManga,
-                                      @RequestParam(defaultValue = "0") int chapters_page) {
-        var manga = mangaService.getById(idManga);
-        var chapter = mangaBitService.getChapters(idManga, manga.getTitle(), chapters_page);
-        return ResponseEntity.ok(chapter);
+    @GetMapping("/manga/{idManga}")
+    public ResponseEntity<List<ChapterDTO>> getChapters(@PathVariable Long idManga) {
+        var chapters = chapterService.getMangaChapters(idManga);
+        return ResponseEntity.ok(chapters.stream().map(c -> mapper.map(c, ChapterDTO.class)).collect(Collectors.toList()));
     }
 
-    @GetMapping("/{idManga}/chapter/{idChapter}")
-    public ResponseEntity getChapters(@PathVariable Long idManga,
-                                      @PathVariable String idChapter) {
-        var pages = mangaBitService.getPages(idManga, idChapter);
-        return ResponseEntity.ok(pages);
+    @GetMapping("/manga/{mangaId}/chapter/{chapterNumber}")
+    public ResponseEntity<ChapterDTO> getChapter(@PathVariable Long mangaId, @PathVariable String chapterNumber) {
+        var chapter = chapterService.getChapter(mangaId, chapterNumber);
+        return ResponseEntity.ok(mapper.map(chapter, ChapterDTO.class));
     }
 }
