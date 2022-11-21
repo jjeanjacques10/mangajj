@@ -40,6 +40,7 @@ It's a project to read manga online and control your manga collection. It's is p
 - [x] Swagger
 - [x] Deploy
   - [x] Heroku
+- [x] Read manga pages
 - [ ] Spring Controller Advice
 
 ## Technology
@@ -82,6 +83,14 @@ LOGGING_LEVEL_ROOT=info;
 PASSWORD_DB=;
 URL_DB=jdbc:h2:mem:AZ\;DB_CLOSE_DELAY\=-1\;DB_CLOSE_ON_EXIT\=FALSE;
 USER_DB=sa
+```
+
+### Submodules
+
+To clone this project with submodules, use the following command:
+
+``` bash
+git clone --recurse-submodules
 ```
 
 ### Postman

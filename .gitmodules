@@ -1,0 +1,3 @@
+[submodule "submodules/manga-scrapper-api"]
+	path = submodules/manga-scrapper-api
+	url = https://github.com/jjeanjacques10/manga-scrapper-api
