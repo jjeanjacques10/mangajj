@@ -53,6 +53,7 @@ public class MangaEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
+    @JoinColumn(name = "manga_id")
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ChapterEntity> chapters;

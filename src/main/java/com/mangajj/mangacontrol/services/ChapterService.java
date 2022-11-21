@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ChapterService {
 
-    ChapterEntity getChapter(Long idChapter);
+    ChapterEntity getChapter(Long mangaId, String number);
 
     List<ChapterEntity> getMangaChapters(Long mangaId);
 

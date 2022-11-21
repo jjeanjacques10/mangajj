@@ -2,8 +2,10 @@ spring:
   jpa:
     defer-datasource-initialization: true
     generate-ddl: true
-    hibernate.ddl.auto: update
+    hibernate.ddl.auto: create
+    show-sql: true
     properties:
+      javax.persistence.query.timeout: 20000
       hibernate:
         generate_statistics: false
         format_sql: true

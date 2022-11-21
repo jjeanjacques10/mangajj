@@ -1,5 +1,6 @@
 package com.mangajj.mangacontrol.entity.chapter;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,9 @@ public class ChapterEntity {
 
     @Column(name = "release_date", nullable = false)
     private LocalDateTime releaseDate;
+
+    @Column(name = "manga_id", nullable = false)
+    private Long mangaId;
 
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
