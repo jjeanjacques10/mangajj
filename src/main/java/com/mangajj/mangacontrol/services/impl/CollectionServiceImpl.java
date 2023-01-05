@@ -3,7 +3,7 @@ package com.mangajj.mangacontrol.services.impl;
 import com.mangajj.mangacontrol.entity.CollectionEntity;
 import com.mangajj.mangacontrol.entity.UserEntity;
 import com.mangajj.mangacontrol.entity.VolumeEntity;
-import com.mangajj.mangacontrol.gateway.controller.dto.CollectionDTO;
+import com.mangajj.mangacontrol.gateway.controller.dto.RequestCollectionDTO;
 import com.mangajj.mangacontrol.gateway.repositories.CollectionRepository;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
 import com.mangajj.mangacontrol.gateway.repositories.UserRepository;
@@ -41,9 +41,9 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public CollectionEntity create(CollectionDTO collectionDTO, UserEntity user) {
-        var manga = mangaRepository.findById(collectionDTO.getMangaId()).orElseThrow(() ->
-                new NotFoundMangaException("Manga not found with id " + collectionDTO.getMangaId()));
+    public CollectionEntity create(RequestCollectionDTO requestCollectionDTO, UserEntity user) {
+        var manga = mangaRepository.findById(requestCollectionDTO.getMangaId()).orElseThrow(() ->
+                new NotFoundMangaException("Manga not found with id " + requestCollectionDTO.getMangaId()));
         var owner = userRepository.findById(user.getId()).orElseThrow(() ->
                 new NotFoundMangaException("User not found with id " + user.getId()));
         return repository.save(CollectionEntity.builder()

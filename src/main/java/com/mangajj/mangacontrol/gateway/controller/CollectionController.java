@@ -2,10 +2,7 @@ package com.mangajj.mangacontrol.gateway.controller;
 
 import com.mangajj.mangacontrol.entity.CollectionEntity;
 import com.mangajj.mangacontrol.entity.UserEntity;
-import com.mangajj.mangacontrol.gateway.controller.dto.CollectionDTO;
-import com.mangajj.mangacontrol.gateway.controller.dto.MangaDTO;
-import com.mangajj.mangacontrol.gateway.controller.dto.ResponseCollectionDTO;
-import com.mangajj.mangacontrol.gateway.controller.dto.ResponseDTO;
+import com.mangajj.mangacontrol.gateway.controller.dto.*;
 import com.mangajj.mangacontrol.services.CollectionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/collection")
@@ -25,18 +23,18 @@ public class CollectionController {
     @Autowired
     private ModelMapper mapper;
 
-    // TODO: create a object DTO to return collection
     @GetMapping
-    public ResponseEntity<List<CollectionEntity>> getCollections() {
+    public ResponseEntity<List<CollectionDTO>> getCollections() {
         var collectionList = service.getAllCollection();
-        return ResponseEntity.ok(collectionList);
+        List<CollectionDTO> collectionDTO = collectionList.stream().map(c -> mapper.map(c, CollectionDTO.class)).collect(Collectors.toList());
+        return ResponseEntity.ok(collectionDTO);
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> createCollection(@RequestBody CollectionDTO collectionDTO, Authentication authentication) {
+    public ResponseEntity<ResponseDTO> createCollection(@RequestBody RequestCollectionDTO requestCollectionDTO, Authentication authentication) {
         UserEntity owner = (UserEntity) authentication.getPrincipal();
 
-        var collection = service.create(collectionDTO, owner);
+        var collection = service.create(requestCollectionDTO, owner);
 
         return ResponseEntity.ok(ResponseDTO.builder()
                 .data(ResponseCollectionDTO.builder()
