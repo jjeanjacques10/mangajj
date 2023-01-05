@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -23,9 +21,8 @@ public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(length = 36)
+    @org.hibernate.annotations.Type(type = "uuid-char")
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     private String name;
@@ -42,8 +39,8 @@ public class UserEntity implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<RoleEntity> roleEntities = new HashSet<>();
 
-    @JoinColumn(name = "id")
-    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CollectionEntity> collections = new ArrayList<>();
 
     @Override

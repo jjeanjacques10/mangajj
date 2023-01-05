@@ -1,12 +1,11 @@
 package com.mangajj.mangacontrol.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,30 +14,21 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "COLLECTION")
-public class CollectionEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Table(name = "Collection")
+public class CollectionEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    @Column(length = 36)
+    @org.hibernate.annotations.Type(type="uuid-char")
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    private String name;
-
-    @ManyToOne()
+    @ManyToOne
     private UserEntity owner;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "manga_collection",
-            joinColumns = @JoinColumn(name = "id_collection", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id_manga", referencedColumnName = "id"))
-    @JsonManagedReference
-    private List<MangaEntity> mangas;
+    @ManyToOne
+    private MangaEntity manga;
 
-    public List<MangaEntity> getMangas() {
-        return mangas;
-    }
+    @OneToMany(mappedBy = "collection")
+    private List<VolumeEntity> volumes;
 }

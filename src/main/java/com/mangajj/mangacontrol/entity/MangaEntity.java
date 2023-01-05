@@ -1,11 +1,13 @@
 package com.mangajj.mangacontrol.entity;
 
-import com.mangajj.mangacontrol.entity.chapter.ChapterEntity;
-import lombok.*;
-import org.hibernate.annotations.Cache;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mangajj.mangacontrol.entity.chapter.ChapterEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -57,9 +59,5 @@ public class MangaEntity implements Serializable {
     @NotFound(action = NotFoundAction.IGNORE)
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ChapterEntity> chapters;
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "mangas", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CollectionEntity> collection;
 
 }

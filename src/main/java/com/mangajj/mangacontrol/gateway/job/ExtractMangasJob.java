@@ -30,8 +30,8 @@ public class ExtractMangasJob {
     MangaRepository repository;
 
     @Async
-    @Scheduled(fixedDelay = 100000000)
-    public void getMangas() {
+    //@Scheduled(fixedDelay = 100000000)
+    public synchronized void getMangas() {
 
         var listMangas = repository.findAll();
 

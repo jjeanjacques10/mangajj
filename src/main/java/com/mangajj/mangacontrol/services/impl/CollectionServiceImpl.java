@@ -1,17 +1,22 @@
 package com.mangajj.mangacontrol.services.impl;
 
 import com.mangajj.mangacontrol.entity.CollectionEntity;
+import com.mangajj.mangacontrol.entity.UserEntity;
+import com.mangajj.mangacontrol.entity.VolumeEntity;
 import com.mangajj.mangacontrol.gateway.controller.dto.CollectionDTO;
 import com.mangajj.mangacontrol.gateway.repositories.CollectionRepository;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
+import com.mangajj.mangacontrol.gateway.repositories.UserRepository;
+import com.mangajj.mangacontrol.gateway.repositories.VolumeRepository;
 import com.mangajj.mangacontrol.services.CollectionService;
+import com.mangajj.mangacontrol.shared.exception.NotFoundMangaException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Log4j2
 @Service
@@ -22,7 +27,13 @@ public class CollectionServiceImpl implements CollectionService {
     private final CollectionRepository repository;
 
     @Autowired
-    private final MangaRepository repositoryManga;
+    private final MangaRepository mangaRepository;
+
+    @Autowired
+    private final VolumeRepository volumeRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
 
     @Override
     public List<CollectionEntity> getAllCollection() {
@@ -30,15 +41,24 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public void create(CollectionDTO collectionDTO) {
-        var mangas = collectionDTO.getMangas().stream()
-                .map(manga -> repositoryManga.findById(manga.getId()).orElse(null)).collect(Collectors.toList());
+    public CollectionEntity create(CollectionDTO collectionDTO, UserEntity user) {
+        var manga = mangaRepository.findById(collectionDTO.getMangaId()).orElseThrow(() ->
+                new NotFoundMangaException("Manga not found with id " + collectionDTO.getMangaId()));
+        var owner = userRepository.findById(user.getId()).orElseThrow(() ->
+                new NotFoundMangaException("User not found with id " + user.getId()));
+        return repository.save(CollectionEntity.builder()
+                .manga(manga)
+                .owner(owner)
+                .build());
+    }
 
-        var collection = CollectionEntity.builder()
-                .name(collectionDTO.getName())
-                .mangas(mangas)
-                .build();
-
-        repository.save(collection);
+    @Override
+    public VolumeEntity createVolume(String collectionId, String volumeNumber) {
+        var collection = repository.findById(UUID.fromString(collectionId)).orElseThrow(() ->
+                new IllegalArgumentException("Collection not found with id " + collectionId));
+        return volumeRepository.save(VolumeEntity.builder()
+                .collection(collection)
+                .number(volumeNumber)
+                .build());
     }
 }

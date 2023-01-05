@@ -1,6 +1,7 @@
 package com.mangajj.mangacontrol.services.impl;
 
 import com.mangajj.mangacontrol.entity.MangaEntity;
+import com.mangajj.mangacontrol.entity.UserEntity;
 import com.mangajj.mangacontrol.gateway.controller.dto.CollectionDTO;
 import com.mangajj.mangacontrol.gateway.repositories.CollectionRepository;
 import com.mangajj.mangacontrol.gateway.repositories.MangaRepository;
@@ -39,9 +40,9 @@ class CollectionServiceImplTest {
     @Test
     void shouldCreateCollection() {
         CollectionDTO collection = collectionDTOFixture();
-        when(repositoryManga.findById(collection.getMangas().get(0).getId())).thenReturn(Optional.ofNullable(MangaEntity.builder().build()));
+        when(repositoryManga.findById(collection.getMangaId())).thenReturn(Optional.ofNullable(MangaEntity.builder().build()));
 
-        collectionService.create(collection);
+        collectionService.create(collection, UserEntity.builder().build());
 
         verify(repository).save(any());
     }
