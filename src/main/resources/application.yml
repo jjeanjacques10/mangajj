@@ -4,6 +4,8 @@ spring:
     username: ${USER_DB:root}
     password: ${PASSWORD_DB:manga-jj-password}
     url: ${URL_DB:jdbc:mysql://localhost:3306/mangadb?useSSL=false}
+    initialization-mode: always
+    data: classpath:/sql/populate-database.sql
   jpa:
     defer-datasource-initialization: true
     generate-ddl: true
