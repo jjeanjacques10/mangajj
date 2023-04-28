@@ -1,4 +1,7 @@
 spring:
+  datasource:
+    initialization-mode: embedded
+    data: classpath:/sql/populate-database.sql
   jpa:
     defer-datasource-initialization: true
     generate-ddl: true
