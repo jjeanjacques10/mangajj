@@ -106,5 +106,7 @@ Access Swagger UI
 - [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 - [https://mangajj.herokuapp.com/swagger-ui/index.html](https://mangajj.herokuapp.com/swagger-ui/index.html)
 
+> Heroku is not more free, so the application is not available anymore.
+
 ---
 Developed by [Jean Jacques Barros](https://github.com/jjeanjacques10)
