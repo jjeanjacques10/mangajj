@@ -23,8 +23,6 @@ api:
   source:
     mymangalist:
       url: 'https://api.jikan.moe/v4'
-    mangabit:
-      url: 'https://manga-bit-api.herokuapp.com/api/v1/'
     mangascrapper:
       url: 'http://localhost:3000/'
 
