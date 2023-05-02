@@ -1,7 +1,7 @@
 ## MangaJJ - API
 
 <p align="center">
-    <img src="./files/MangaJJLogo.jpg" width="300"/>
+    <img src="./files/MangaJJLogo.jpg" alt="logo mangajj" width="300"/>
     <br />
     <br />
     <a href="https://mangajj.herokuapp.com/manga?limit=10&page=0&title=Naruto">Demo</a>
@@ -97,7 +97,7 @@ git clone --recurse-submodules
 
 Access postman collection **[here](./files/Manga%20JJ.postman_collection.json)**
 
-<img src="./files/collectionMangaJJ.png">
+<img alt="Postman Collection" src="./files/collectionMangaJJ.png">
 
 ### Documentation Swagger
 
