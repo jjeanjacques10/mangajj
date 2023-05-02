@@ -1,8 +1,8 @@
 package com.mangajj.mangacontrol.config;
 
-import com.mangajj.mangacontrol.gateway.repositories.UserRepository;
-import com.mangajj.mangacontrol.services.impl.AuthenticationService;
-import com.mangajj.mangacontrol.services.impl.TokenService;
+import com.mangajj.mangacontrol.adapter.persistence.UserRepository;
+import com.mangajj.mangacontrol.application.impl.AuthenticationService;
+import com.mangajj.mangacontrol.application.impl.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

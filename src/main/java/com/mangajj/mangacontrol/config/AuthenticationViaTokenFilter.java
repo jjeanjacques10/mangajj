@@ -1,8 +1,8 @@
 package com.mangajj.mangacontrol.config;
 
-import com.mangajj.mangacontrol.entity.UserEntity;
-import com.mangajj.mangacontrol.gateway.repositories.UserRepository;
-import com.mangajj.mangacontrol.services.impl.TokenService;
+import com.mangajj.mangacontrol.adapter.persistence.entity.UserEntity;
+import com.mangajj.mangacontrol.adapter.persistence.UserRepository;
+import com.mangajj.mangacontrol.application.impl.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
