@@ -37,6 +37,12 @@ feign:
         connectTimeout: 20000
         readTimeout: 6000
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+
 # swagger-ui custom path
 springdoc:
   swagger-ui:

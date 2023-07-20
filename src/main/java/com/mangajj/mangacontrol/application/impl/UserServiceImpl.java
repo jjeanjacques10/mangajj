@@ -4,6 +4,7 @@ import com.mangajj.mangacontrol.adapter.persistence.entity.RoleEntity;
 import com.mangajj.mangacontrol.adapter.persistence.entity.UserEntity;
 import com.mangajj.mangacontrol.adapter.persistence.UserRepository;
 import com.mangajj.mangacontrol.application.UserService;
+import com.mangajj.mangacontrol.application.exception.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User " + email + " not exists"));
+                .orElseThrow(() -> new UserNotFoundException("User " + email + " not exists"));
     }
 
 }

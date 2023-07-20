@@ -17,8 +17,8 @@ import java.util.UUID;
 
 public class AuthenticationViaTokenFilter extends OncePerRequestFilter {
 
-    private TokenService tokenService;
-    private UserRepository userRepository;
+    private final TokenService tokenService;
+    private final UserRepository userRepository;
 
     AuthenticationViaTokenFilter(TokenService tokenService, UserRepository userRepository) {
         this.tokenService = tokenService;

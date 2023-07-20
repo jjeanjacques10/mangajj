@@ -2,6 +2,7 @@ package com.mangajj.mangacontrol.adapter.web.advice;
 
 import com.mangajj.mangacontrol.application.exception.ChapterNotFoundException;
 import com.mangajj.mangacontrol.application.exception.NotFoundMangaException;
+import com.mangajj.mangacontrol.application.exception.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .build());
     }
 
-    @ExceptionHandler(value = {ChapterNotFoundException.class, NotFoundMangaException.class})
+    @ExceptionHandler(value = {ChapterNotFoundException.class, NotFoundMangaException.class, UserNotFoundException.class})
     public ResponseEntity<ExceptionDetailsDTO> handleNotFound(NotFoundMangaException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ExceptionDetailsDTO.builder()
                 .timestamp(LocalDateTime.now().toString())

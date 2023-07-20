@@ -50,7 +50,7 @@ public class MyMangaListServiceImpl implements MyMangaListService {
                 .filter(Objects::nonNull)
                 .map(this::buildMangaEntity)
                 .collect(Collectors.toList());
-        mangaEntities.forEach(m -> log.info("save {} in database", m.getTitle()));
+        mangaEntities.stream().parallel().forEach(m -> log.info("save {} in database", m.getTitle()));
         return repository.saveAll(mangaEntities);
     }
 

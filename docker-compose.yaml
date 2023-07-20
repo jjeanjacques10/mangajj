@@ -12,6 +12,20 @@ services:
       - '3306:3306'
     volumes:
       - my-db:/var/lib/mysql
+    networks:
+      - mangajj-network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '8080:8080'
+    networks:
+      - mangajj-network
+
+networks:
+  mangajj-network:
+    driver: bridge
 
 volumes:
   my-db:
