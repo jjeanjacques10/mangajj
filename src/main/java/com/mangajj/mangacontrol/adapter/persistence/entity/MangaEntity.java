@@ -23,7 +23,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "MANGA")
+@Table(name = "Manga")
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class MangaEntity implements Serializable {
     private static final long serialVersionUID = 1L;

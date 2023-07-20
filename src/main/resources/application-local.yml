@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   datasource:
     initialization-mode: embedded
@@ -6,7 +9,7 @@ spring:
     defer-datasource-initialization: true
     generate-ddl: true
     hibernate.ddl.auto: create
-    show-sql: true
+    show-sql: false
     properties:
       javax.persistence.query.timeout: 20000
       hibernate:

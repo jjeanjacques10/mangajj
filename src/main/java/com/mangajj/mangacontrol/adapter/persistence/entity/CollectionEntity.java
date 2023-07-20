@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "COLLECTION")
+@Table(name = "Collection")
 public class CollectionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
