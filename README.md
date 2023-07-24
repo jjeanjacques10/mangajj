@@ -40,7 +40,8 @@ It's a project to read manga online and control your manga collection. It's is p
 - [x] Swagger
 - [x] Deploy
   - [x] Heroku
-- [x] Read manga pages
+- [x] Read manga 
+- [x] Observability (Prometheus/Grafana)
 - [ ] Spring Controller Advice
 
 ## Technology
@@ -107,6 +108,10 @@ Access Swagger UI
 - [https://mangajj.herokuapp.com/swagger-ui/index.html](https://mangajj.herokuapp.com/swagger-ui/index.html)
 
 > Heroku is not more free, so the application is not available anymore.
+
+### Observability
+
+![Grafana Dashboard](./files/dashboardGrafana.png)
 
 ---
 Developed by [Jean Jacques Barros](https://github.com/jjeanjacques10)
