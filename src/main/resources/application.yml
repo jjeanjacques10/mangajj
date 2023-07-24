@@ -41,7 +41,15 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus
+        include: info,health,prometheus
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: MangaControlApplication
 
 # swagger-ui custom path
 springdoc:
