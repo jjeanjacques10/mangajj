@@ -42,7 +42,7 @@ It's a project to read manga online and control your manga collection. It's is p
   - [x] Heroku
 - [x] Read manga 
 - [x] Observability (Prometheus/Grafana)
-- [ ] Spring Controller Advice
+- [x] Spring Controller Advice
 
 ## Technology
 
