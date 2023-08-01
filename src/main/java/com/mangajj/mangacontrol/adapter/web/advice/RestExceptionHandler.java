@@ -3,6 +3,7 @@ package com.mangajj.mangacontrol.adapter.web.advice;
 import com.mangajj.mangacontrol.application.exception.ChapterNotFoundException;
 import com.mangajj.mangacontrol.application.exception.NotFoundMangaException;
 import com.mangajj.mangacontrol.application.exception.UserNotFoundException;
+import feign.FeignException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +58,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .timestamp(LocalDateTime.now().toString())
                 .status(HttpStatus.FORBIDDEN.value())
                 .title("User not authorized")
+                .details(ex.getMessage())
+                .developerMethod(ex.getClass().getName())
+                .build());
+    }
+
+    @ExceptionHandler(value = {FeignException.class})
+    public ResponseEntity<ExceptionDetailsDTO> handleFeignClientExceptions(FeignException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ExceptionDetailsDTO.builder()
+                .timestamp(LocalDateTime.now().toString())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .title("Request integration error")
                 .details(ex.getMessage())
                 .developerMethod(ex.getClass().getName())
                 .build());

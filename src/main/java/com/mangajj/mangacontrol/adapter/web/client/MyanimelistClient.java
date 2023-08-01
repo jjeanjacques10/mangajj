@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @FeignClient(value = "manga-list", url = "${api.source.mymangalist.url}")
 public interface MyanimelistClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/manga/{id}")
-    WrapperMyMangaListDataContract getMangasMyList(@PathVariable Long id);
+    Optional<WrapperMyMangaListDataContract> getMangasMyList(@PathVariable Long id);
 
     @RequestMapping(method = RequestMethod.GET, value = "/manga")
     MyMangaListDataParentContract getMangasByTitle(@RequestParam(value = "q") String title,

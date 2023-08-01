@@ -33,8 +33,8 @@ public class MyMangaListServiceImpl implements MyMangaListService {
 
     @Override
     public MangaEntity getFromSourceById(Long id) {
-        var myManga = myanimelistClient.getMangasMyList(id);
-        if (myManga == null) throw new NotFoundMangaException("Manga not found id " + id);
+        var myManga = myanimelistClient.getMangasMyList(id)
+                .orElseThrow(() -> new NotFoundMangaException("Manga not found id " + id));
         return saveToDatabase(myManga.getData()).orElseThrow(() -> new NotFoundMangaException("Manga not found id " + id));
     }
 
@@ -67,15 +67,17 @@ public class MyMangaListServiceImpl implements MyMangaListService {
     }
 
     private MyMangaListDataContract getMyMangaListItem(MyMangaListDataContract myManga, boolean withSleep) {
-        MyMangaListDataContract manga = null;
         try {
             if (withSleep) Thread.sleep(1000);
-            manga = myanimelistClient.getMangasMyList(myManga.getId()).getData();
+            var mangaResponse = myanimelistClient.getMangasMyList(myManga.getId())
+                    .orElseThrow(() -> new NotFoundMangaException("Manga not found"));
+            var manga = mangaResponse.getData();
             if (!isValidGenre(manga.getGenres())) return null;
+            return manga;
         } catch (Exception ex) {
             log.error(ex.getMessage());
+            return null;
         }
-        return manga;
     }
 
     private boolean isValidGenre(List<GenresDataContract> genres) {

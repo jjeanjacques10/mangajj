@@ -31,14 +31,17 @@ public class MangaServiceImpl implements MangaService {
     @Override
     public MangaEntity getById(Long id) {
         log.info("Get manga by Id [{}]", id);
-        var mangaFounded = repository.findById(id).orElse(null);
-
-        if (mangaFounded == null) {
-            log.info("Search in lazy load process to id [{}]", id);
-            mangaFounded = myMangaListService.getFromSourceById(id);
+        try {
+            var mangaFounded = repository.findById(id).orElse(null);
+            if (mangaFounded == null) {
+                log.info("Search in lazy load process to id [{}]", id);
+                mangaFounded = myMangaListService.getFromSourceById(id);
+            }
+            return mangaFounded;
+        } catch (Exception ex) {
+            log.error("Error to get manga by id - {}", ex.getMessage());
+            throw ex;
         }
-
-        return mangaFounded;
     }
 
     @Override
