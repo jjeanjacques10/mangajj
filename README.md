@@ -115,3 +115,7 @@ Access Swagger UI
 
 ---
 Developed by [Jean Jacques Barros](https://github.com/jjeanjacques10)
+
+## References
+
+- https://micrometer.io/docs/concepts#_counters
