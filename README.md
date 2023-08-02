@@ -66,7 +66,7 @@ spring.datasource.password={password}
 
 Using external API to populate database: <https://github.com/jikan-me/jikan>.
 
-Using service [MangaBit](https://github.com/franproque/MangaBit) to scrap chapter pages.
+Using service [MangaJJ Scrapper Lambda](https://github.com/jjeanjacques10/mangajj-lambda) to scrap chapter pages from the internet.
 
 ### Config Local
 
