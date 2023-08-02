@@ -11,6 +11,6 @@ public interface MangaScrapperClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/chapter")
     WrapperMangaScrapperDataContract getMangasMyList(@RequestParam(value = "source") String source,
-                                                     @RequestParam(value = "manga") String manga,
-                                                     @RequestParam(value = "number") String number);
+                                                     @RequestParam(value = "title") String manga,
+                                                     @RequestParam(value = "chapter") String number);
 }

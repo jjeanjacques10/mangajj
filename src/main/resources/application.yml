@@ -24,7 +24,7 @@ api:
     mymangalist:
       url: 'https://api.jikan.moe/v4'
     mangascrapper:
-      url: 'http://localhost:3000/'
+      url: ${MANGA_SCRAPPER_URI}
 
 jwt:
   secret: naruto-uzumaki
@@ -33,6 +33,9 @@ jwt:
 feign:
   client:
     config:
+      manga-scrapper:
+        connectTimeout: 20000
+        readTimeout: 20000
       default:
         connectTimeout: 20000
         readTimeout: 6000

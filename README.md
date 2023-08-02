@@ -76,9 +76,9 @@ Using service [MangaBit](https://github.com/franproque/MangaBit) to scrap chapte
 -Dspring.profiles.active=local
 ```
 
-- Enviroment - Using H2 Database
+- Environment - Using H2 Database
 
-```
+``` env
 DRIVER_DB=org.h2.Driver;
 LOGGING_LEVEL_ROOT=info;
 PASSWORD_DB=;
@@ -86,12 +86,10 @@ URL_DB=jdbc:h2:mem:AZ\;DB_CLOSE_DELAY\=-1\;DB_CLOSE_ON_EXIT\=FALSE;
 USER_DB=sa
 ```
 
-### Submodules
+- Environment - [Manga Scrapper](https://github.com/jjeanjacques10/mangajj-lambda)
 
-To clone this project with submodules, use the following command:
-
-``` bash
-git clone --recurse-submodules
+``` env
+MANGA_SCRAPPER_URI=<Lambda endpoint>
 ```
 
 ### Postman
@@ -104,8 +102,8 @@ Access postman collection **[here](./files/Manga%20JJ.postman_collection.json)**
 
 Access Swagger UI
 
-- [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-- [https://mangajj.herokuapp.com/swagger-ui/index.html](https://mangajj.herokuapp.com/swagger-ui/index.html)
+- [http://localhost:8081/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- [https://mangajj.herokuapp.com/swagger-ui/index.html](https://mangajj.herokuapp.com/swagger-ui/index.html) (Unavailable)
 
 > Heroku is not more free, so the application is not available anymore.
 
